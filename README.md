@@ -10,9 +10,8 @@ conventions for using HQC in X.509 Public Key Infrastructure, following the
 approach established for ML-KEM in
 [draft-ietf-lamps-kyber-certificates](https://datatracker.ietf.org/doc/draft-ietf-lamps-kyber-certificates).
 
-* [Editor's Copy](https://jakemas.github.io/hqc-certificates/#go.draft-ietf-lamps-hqc-certificates.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-lamps-hqc-certificates)
-* [WG Draft](https://datatracker.ietf.org/doc/html/draft-ietf-lamps-hqc-certificates)
+* [Editor's Copy](https://jakemas.github.io/hqc-certificates/#go.draft-massimo-lamps-hqc-certificates.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-massimo-lamps-hqc-certificates)
 
 ## Status
 

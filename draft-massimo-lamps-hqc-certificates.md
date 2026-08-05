@@ -5,7 +5,7 @@ title: >
 abbrev: HQC in Certificates
 category: std
 
-docname: draft-ietf-lamps-hqc-certificates-latest
+docname: draft-massimo-lamps-hqc-certificates-latest
 submissiontype: IETF
 number:
 date:
@@ -26,7 +26,7 @@ venue:
   mail: "spasm@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/spasm/"
   github: "jakemas/hqc-certificates"
-  latest: "https://jakemas.github.io/hqc-certificates/#go.draft-ietf-lamps-hqc-certificates.html"
+  latest: "https://jakemas.github.io/hqc-certificates/#go.draft-massimo-lamps-hqc-certificates.html"
 
 author:
  -
