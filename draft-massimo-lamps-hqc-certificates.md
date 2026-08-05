@@ -138,8 +138,8 @@ standardized by the US National Institute of Standards and Technology
 (NIST) PQC Project {{NIST-PQC}} in, the forthcoming, {{FIPS207}}. This
 document specifies the use of HQC in Public Key Infrastructure X.509 (PKIX)
 certificates {{!RFC5280}} at three security levels corresponding to NIST
-Security Categories 1, 3, and 5, referred to in this document as HQC-128,
-HQC-192, and HQC-256, respectively. The private key format is also
+Security Categories 1, 3, and 5, referred to in this document as HQC-KEM-128,
+HQC-KEM-192, and HQC-KEM-256, respectively. The private key format is also
 specified.
 
 The security of HQC is based on the hardness of decoding random
@@ -198,7 +198,7 @@ The fields in `AlgorithmIdentifier` have the following meanings:
   the algorithm identifier in the `algorithm` field.
 
 The `AlgorithmIdentifier` for an HQC public key MUST use one of the
-`id-alg-hqc` object identifiers (OID) listed below, based on the security
+`id-alg-hqc-kem` object identifiers (OID) listed below, based on the security
 level. The `parameters` field of the `AlgorithmIdentifier` for the HQC
 public key MUST be absent.
 
@@ -217,11 +217,11 @@ public key MUST be absent.
 
   kems OBJECT IDENTIFIER ::= { nistAlgorithms 4 }
 
-  id-alg-hqc-128 OBJECT IDENTIFIER ::= { kems TBD1 }
+  id-alg-hqc-kem-128 OBJECT IDENTIFIER ::= { kems TBD1 }
 
-  id-alg-hqc-192 OBJECT IDENTIFIER ::= { kems TBD2 }
+  id-alg-hqc-kem-192 OBJECT IDENTIFIER ::= { kems TBD2 }
 
-  id-alg-hqc-256 OBJECT IDENTIFIER ::= { kems TBD3 }
+  id-alg-hqc-kem-256 OBJECT IDENTIFIER ::= { kems TBD3 }
 ~~~
 
 # Subject Public Key Fields  {#pub-key}
@@ -247,35 +247,35 @@ For each HQC parameter set, see {{tab-strengths}},
 we define a `PUBLIC-KEY` ASN.1 type as follows.
 
 ~~~
-  pk-hqc-128 PUBLIC-KEY ::= {
-    IDENTIFIER id-alg-hqc-128
+  pk-hqc-kem-128 PUBLIC-KEY ::= {
+    IDENTIFIER id-alg-hqc-kem-128
     -- KEY no ASN.1 wrapping; 2249 octets --
     PARAMS ARE absent
     CERT-KEY-USAGE { keyEncipherment }
-    PRIVATE-KEY HQC-128-PrivateKey -- defined in Section 6
+    PRIVATE-KEY HQC-KEM-128-PrivateKey -- defined in Section 6
     }
 
-  pk-hqc-192 PUBLIC-KEY ::= {
-    IDENTIFIER id-alg-hqc-192
+  pk-hqc-kem-192 PUBLIC-KEY ::= {
+    IDENTIFIER id-alg-hqc-kem-192
     -- KEY no ASN.1 wrapping; 4522 octets --
     PARAMS ARE absent
     CERT-KEY-USAGE { keyEncipherment }
-    PRIVATE-KEY HQC-192-PrivateKey -- defined in Section 6
+    PRIVATE-KEY HQC-KEM-192-PrivateKey -- defined in Section 6
     }
 
-  pk-hqc-256 PUBLIC-KEY ::= {
-    IDENTIFIER id-alg-hqc-256
+  pk-hqc-kem-256 PUBLIC-KEY ::= {
+    IDENTIFIER id-alg-hqc-kem-256
     -- KEY no ASN.1 wrapping; 7245 octets --
     PARAMS ARE absent
     CERT-KEY-USAGE { keyEncipherment }
-    PRIVATE-KEY HQC-256-PrivateKey -- defined in Section 6
+    PRIVATE-KEY HQC-KEM-256-PrivateKey -- defined in Section 6
   }
 
-  HQC-128-PublicKey ::= OCTET STRING (SIZE (2249))
+  HQC-KEM-128-PublicKey ::= OCTET STRING (SIZE (2249))
 
-  HQC-192-PublicKey ::= OCTET STRING (SIZE (4522))
+  HQC-KEM-192-PublicKey ::= OCTET STRING (SIZE (4522))
 
-  HQC-256-PublicKey ::= OCTET STRING (SIZE (7245))
+  HQC-KEM-256-PublicKey ::= OCTET STRING (SIZE (7245))
 ~~~
 
 <aside markdown="block">
@@ -286,8 +286,8 @@ we define a `PUBLIC-KEY` ASN.1 type as follows.
 
 When an HQC public key appears outside of a `SubjectPublicKeyInfo`
 type in an environment that uses ASN.1 encoding, it can be encoded
-as an OCTET STRING by using the `HQC-128-PublicKey`,
-`HQC-192-PublicKey`, and `HQC-256-PublicKey` types corresponding to
+as an OCTET STRING by using the `HQC-KEM-128-PublicKey`,
+`HQC-KEM-192-PublicKey`, and `HQC-KEM-256-PublicKey` types corresponding to
 the correct key size.
 
 {{!RFC5958}} describes the Asymmetric Key Package's `OneAsymmetricKey`
@@ -300,7 +300,7 @@ in {{priv-key}}.
 The intended application for the key is indicated in the keyUsage certificate
 extension; see {{Section 4.2.1.3 of RFC5280}}. If the `keyUsage` extension is
 present in certificates, then `keyEncipherment` MUST be the only key usage set
-for certificates that indicate `id-alg-hqc-*` in `SubjectPublicKeyInfo`,
+for certificates that indicate `id-alg-hqc-kem-*` in `SubjectPublicKeyInfo`,
 (with `*` either 128, 192, or 256.)
 
 # Private Key Format {#priv-key}
@@ -354,15 +354,15 @@ the following DER-encoded `CHOICE` structure. The `seed` format is a fixed
 `OCTET STRING` for all security levels.
 
 ~~~
-  HQC-128-PrivateKey ::= CHOICE {
+  HQC-KEM-128-PrivateKey ::= CHOICE {
     seed [0] OCTET STRING (SIZE (32))
     }
 
-  HQC-192-PrivateKey ::= CHOICE {
+  HQC-KEM-192-PrivateKey ::= CHOICE {
     seed [0] OCTET STRING (SIZE (32))
     }
 
-  HQC-256-PrivateKey ::= CHOICE {
+  HQC-KEM-256-PrivateKey ::= CHOICE {
     seed [0] OCTET STRING (SIZE (32))
     }
 ~~~
@@ -452,9 +452,9 @@ the published FIPS 207 standard.
 
 | Level | Parameter Set | Public Key | Ciphertext | Shared Secret |
 |-      |-              |-           |-           |-              |
-| 1     | HQC-128       | 2249       | 4497       | 32            |
-| 3     | HQC-192       | 4522       | 9042       | 32            |
-| 5     | HQC-256       | 7245       | TBD        | 32            |
+| 1     | HQC-KEM-128       | 2249       | 4497       | 32            |
+| 3     | HQC-KEM-192       | 4522       | 9042       | 32            |
+| 5     | HQC-KEM-256       | 7245       | TBD        | 32            |
 {: #tab-strengths title="Mapping between NIST Security Level, HQC parameter set, and provisional sizes in bytes"}
 
 # Acknowledgments

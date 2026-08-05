@@ -37,11 +37,11 @@ nistAlgorithms OBJECT IDENTIFIER ::= { joint-iso-ccitt(2)
 
 kems OBJECT IDENTIFIER ::= { nistAlgorithms 4 }
 
-id-alg-hqc-128 OBJECT IDENTIFIER ::= { kems TBD1 }
+id-alg-hqc-kem-128 OBJECT IDENTIFIER ::= { kems TBD1 }
 
-id-alg-hqc-192 OBJECT IDENTIFIER ::= { kems TBD2 }
+id-alg-hqc-kem-192 OBJECT IDENTIFIER ::= { kems TBD2 }
 
-id-alg-hqc-256 OBJECT IDENTIFIER ::= { kems TBD3 }
+id-alg-hqc-kem-256 OBJECT IDENTIFIER ::= { kems TBD3 }
 
 --
 -- Public Key Algorithms
@@ -49,9 +49,9 @@ id-alg-hqc-256 OBJECT IDENTIFIER ::= { kems TBD3 }
 
 PublicKeys PUBLIC-KEY ::= {
   -- This expands PublicKeys from [RFC 5912]
-  pk-hqc-128 |
-  pk-hqc-192 |
-  pk-hqc-256,
+  pk-hqc-kem-128 |
+  pk-hqc-kem-192 |
+  pk-hqc-kem-256,
   ...
   }
 
@@ -63,46 +63,46 @@ PublicKeys PUBLIC-KEY ::= {
 -- confirmed against the published FIPS 207 standard.
 --
 
-pk-hqc-128 PUBLIC-KEY ::= {
-  IDENTIFIER id-alg-hqc-128
+pk-hqc-kem-128 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-kem-128
   -- KEY no ASN.1 wrapping; 2249 octets --
   PARAMS ARE absent
   CERT-KEY-USAGE { keyEncipherment }
-  PRIVATE-KEY HQC-128-PrivateKey
+  PRIVATE-KEY HQC-KEM-128-PrivateKey
   }
 
-HQC-128-PrivateKey ::= CHOICE {
+HQC-KEM-128-PrivateKey ::= CHOICE {
   seed [0] OCTET STRING (SIZE (32))
   }
 
-pk-hqc-192 PUBLIC-KEY ::= {
-  IDENTIFIER id-alg-hqc-192
+pk-hqc-kem-192 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-kem-192
   -- KEY no ASN.1 wrapping; 4522 octets --
   PARAMS ARE absent
   CERT-KEY-USAGE { keyEncipherment }
-  PRIVATE-KEY HQC-192-PrivateKey
+  PRIVATE-KEY HQC-KEM-192-PrivateKey
   }
 
-HQC-192-PrivateKey ::= CHOICE {
+HQC-KEM-192-PrivateKey ::= CHOICE {
   seed [0] OCTET STRING (SIZE (32))
   }
 
-pk-hqc-256 PUBLIC-KEY ::= {
-  IDENTIFIER id-alg-hqc-256
+pk-hqc-kem-256 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-kem-256
   -- KEY no ASN.1 wrapping; 7245 octets --
   PARAMS ARE absent
   CERT-KEY-USAGE { keyEncipherment }
-  PRIVATE-KEY HQC-256-PrivateKey
+  PRIVATE-KEY HQC-KEM-256-PrivateKey
   }
 
-HQC-256-PrivateKey ::= CHOICE {
+HQC-KEM-256-PrivateKey ::= CHOICE {
   seed [0] OCTET STRING (SIZE (32))
   }
 
-HQC-128-PublicKey ::= OCTET STRING (SIZE (2249))
+HQC-KEM-128-PublicKey ::= OCTET STRING (SIZE (2249))
 
-HQC-192-PublicKey ::= OCTET STRING (SIZE (4522))
+HQC-KEM-192-PublicKey ::= OCTET STRING (SIZE (4522))
 
-HQC-256-PublicKey ::= OCTET STRING (SIZE (7245))
+HQC-KEM-256-PublicKey ::= OCTET STRING (SIZE (7245))
 
 END
