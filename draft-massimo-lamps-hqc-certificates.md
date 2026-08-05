@@ -34,6 +34,11 @@ author:
     name: Jake Massimo
     organization: AWS
     email: jakemas@amazon.com
+ -
+    ins: P. Kampanakis
+    name: Panos Kampanakis
+    organization: AWS
+    email: kpanos@amazon.com
 
 normative:
   FIPS207:
