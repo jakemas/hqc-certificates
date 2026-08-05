@@ -124,6 +124,92 @@ informative:
       -
         ins: M. Weishäupl
         name: Maximiliane Weishäupl
+  ABDGZ16:
+    title: "Efficient Encryption from Random Quasi-Cyclic Codes"
+    target: https://eprint.iacr.org/2016/1194
+    date: 2016
+    author:
+      - {ins: C. Aguilar Melchor, name: Carlos Aguilar Melchor}
+      - {ins: O. Blazy, name: Olivier Blazy}
+      - {ins: J-C. Deneuville, name: Jean-Christophe Deneuville}
+      - {ins: P. Gaborit, name: Philippe Gaborit}
+      - {ins: G. Zémor, name: Gilles Zémor}
+  SENDRIER11:
+    title: "Decoding One Out of Many"
+    target: https://eprint.iacr.org/2011/367
+    date: 2011
+    author:
+      - {ins: N. Sendrier, name: Nicolas Sendrier}
+  SDE21:
+    title: "Syndrome Decoding Estimator"
+    target: https://eprint.iacr.org/2021/1243
+    date: 2021
+    author:
+      - {ins: A. Esser, name: Andre Esser}
+      - {ins: E. Bellini, name: Emanuele Bellini}
+  ISD-HQC-2026:
+    title: "Multilevel Amortized Gaussian Elimination in Information-Set Decoding: Applications to HQC and PCG"
+    target: https://eprint.iacr.org/2026/1498
+    date: 2026
+    author:
+      - {ins: K. Carrier, name: Kévin Carrier}
+      - {ins: V. Hatey, name: Valérian Hatey}
+      - {ins: L. Luzzi, name: Laura Luzzi}
+      - {ins: J-P. Tillich, name: Jean-Pierre Tillich}
+  HQC-TIMING-2019:
+    title: "A Practicable Timing Attack Against HQC and its Countermeasure"
+    target: https://eprint.iacr.org/2019/909
+    date: 2019
+    author:
+      - {ins: G. Wafo-Tapa, name: Guillaume Wafo-Tapa}
+      - {ins: S. Bettaieb, name: Slim Bettaieb}
+      - {ins: L. Bidoux, name: Loïc Bidoux}
+      - {ins: P. Gaborit, name: Philippe Gaborit}
+      - {ins: E. Marcatel, name: Etienne Marcatel}
+  HQC-REJECT-2021:
+    title: "Don't Reject This: Key-Recovery Timing Attacks Due to Rejection-Sampling in HQC and BIKE"
+    target: https://eprint.iacr.org/2021/1485
+    date: 2021
+    author:
+      - {ins: Q. Guo, name: Qian Guo}
+      - {ins: C. Hlauschek, name: Clemens Hlauschek}
+      - {ins: T. Johansson, name: Thomas Johansson}
+      - {ins: N. Lahr, name: Norman Lahr}
+      - {ins: A. Nilsson, name: Alexander Nilsson}
+      - {ins: R. L. Schröder, name: Robin Leander Schröder}
+  HQC-DIV-2024:
+    title: "Divide and Surrender: Exploiting Variable Division Instruction Timing in HQC Key Recovery Attacks"
+    target: https://eprint.iacr.org/2024/299
+    date: 2024
+    author:
+      - {ins: R. L. Schröder, name: Robin Leander Schröder}
+      - {ins: S. Gast, name: Stefan Gast}
+      - {ins: Q. Guo, name: Qian Guo}
+  HQC-AVX2-2026:
+    title: "Breaking Optimized HQC: The First Cache-Timing Full Decryption Oracle Key-Recovery Attack in Post-Quantum Cryptography"
+    target: https://eprint.iacr.org/2026/693
+    date: 2026
+    author:
+      - {ins: H. Dong, name: Haiyue Dong}
+      - {ins: Q. Guo, name: Qian Guo}
+  HQC-POWER-2022:
+    title: "A Power Side-Channel Attack on the Reed-Muller Reed-Solomon Version of the HQC Cryptosystem"
+    target: https://eprint.iacr.org/2022/724
+    date: 2022
+    author:
+      - {ins: T. Schamberger, name: Thomas Schamberger}
+      - {ins: L. Holzbaur, name: Lukas Holzbaur}
+      - {ins: J. Renner, name: Julian Renner}
+      - {ins: A. Wachter-Zeh, name: Antonia Wachter-Zeh}
+      - {ins: G. Sigl, name: Georg Sigl}
+  HQC-TRACE-2025:
+    title: "Single-Trace Key Recovery Attacks on HQC Using Valid and Invalid Ciphertexts"
+    target: https://eprint.iacr.org/2025/1987
+    date: 2025
+    author:
+      - {ins: H. Dong, name: Haiyue Dong}
+      - {ins: Q. Guo, name: Qian Guo}
+      - {ins: D. Nabokov, name: Denis Nabokov}
 
 --- abstract
 
@@ -406,20 +492,118 @@ values can result in little or no security. An attacker may find it
 much easier to reproduce the PRNG environment that produced the keys,
 searching the resulting small set of possibilities, rather than brute
 force searching the whole key space. The generation of quality
-random numbers is difficult.
+random numbers is difficult. Because the entire HQC keypair is derived
+deterministically from the seed (see {{priv-key}}), the secrecy and
+entropy of the seed are paramount: a weak or predictable PRNG at key
+generation compromises the whole long-term key, and the compact seed MUST
+be protected to the same degree as the fully expanded private key.
 
-Many protocols only rely on the IND-CCA security of a KEM. Some
+## Underlying Assumption and Cryptanalysis
+
+The security of HQC is based on the hardness of the (decisional)
+Quasi-Cyclic Syndrome Decoding (QCSD) problem for random quasi-cyclic
+codes {{ABDGZ16}}. Unlike code-based schemes that rely on a hidden code
+with algebraic structure (for example, the Goppa codes of Classic
+McEliece), HQC uses random quasi-cyclic codes, so its security does not
+depend on concealing the structure of the underlying code. As a
+consequence, HQC rests on a different mathematical foundation than the
+lattice-based ML-KEM {{?I-D.ietf-lamps-kyber-certificates}}, which is a
+principal motivation for standardizing it: it offers cryptographic
+diversity against advances in lattice cryptanalysis.
+
+The best known attacks against QCSD reduce to generic Information Set
+Decoding (ISD); the quasi-cyclic structure yields only a Decoding One Out
+of Many {{SENDRIER11}} speedup on the order of the square root of the
+block size, which is already accounted for in the HQC parameters. The
+concrete cost of these attacks is estimated using tools such as the
+Syndrome Decoding Estimator {{SDE21}}. The concrete security of ISD
+against HQC remains an area of active research; refinements continue to
+be published (for example, {{ISD-HQC-2026}}). HQC's parameters were
+selected to offer a smaller security margin than the extremely
+conservative Classic McEliece; implementers and relying parties should
+track cryptanalytic developments, and the parameter-to-object-identifier
+mapping in this document MUST be reconciled with the values fixed by
+{{FIPS207}}.
+
+## Decapsulation Failures
+
+HQC is designed so that the decapsulation failure rate (DFR) is negligible
+with respect to the targeted security level of each parameter set. This is
+essential to the IND-CCA2 security of the KEM: the tightness of the
+Fujisaki-Okamoto security argument depends on the correctness error of the
+underlying public-key encryption scheme. Moreover, for code-based schemes
+a decapsulation failure is correlated with the secret key, so an adversary
+who can observe or provoke failures can mount a reaction
+(decryption-failure) attack to recover secret-key structure. Choosing a DFR below the
+security level makes locating even a single failure infeasible for a
+bounded adversary.
+
+The claimed DFR is a property of the specific HQC decoder (a concatenated
+Reed-Muller / Reed-Solomon construction). An implementation that
+substitutes a different or approximate decoder, or that otherwise raises
+the failure probability, can silently invalidate the IND-CCA2 argument.
+Implementations MUST use the decoding procedure specified in {{FIPS207}}
+and MUST NOT introduce optimizations that increase the decapsulation
+failure rate.
+
+## Side-Channel Attacks
+
+HQC has an extensive side-channel and micro-architectural attack
+literature, and it is the most significant implementation-security concern
+for HQC. A recurring lesson is that a constant-time C implementation is not
+sufficient on its own: several key-recovery attacks succeed against source
+code that was intended to be constant-time, because compiler optimizations
+or micro-architectural behaviour reintroduce secret-dependent timing in the
+compiled binary.
+
+Documented attacks include chosen-ciphertext timing attacks against the
+decoder {{HQC-TIMING-2019}}; timing attacks exploiting the rejection
+sampling used to generate fixed-weight vectors, which succeed even when the
+decoder itself is constant-time {{HQC-REJECT-2021}}; attacks exploiting
+variable-time division instructions emitted by the compiler
+{{HQC-DIV-2024}}; cache-timing key-recovery attacks against optimized
+(for example, AVX2) implementations that claim to be constant-time
+{{HQC-AVX2-2026}}; and passive power and single-trace analysis of the
+Reed-Muller / Reed-Solomon decoder and the fixed-weight sampler
+{{HQC-POWER-2022}} {{HQC-TRACE-2025}}.
+
+Implementations of HQC decapsulation SHOULD be verified to be constant-time
+at the level of the emitted machine code, not merely the source, and SHOULD
+avoid data-dependent branches, table lookups, and variable-latency
+instructions (such as integer division) on secret-dependent values. The
+decoder, the fixed-weight vector sampler, and polynomial multiplication are
+all documented leakage sites and warrant particular care.
+
+A public key carried in an X.509 certificate is, by its nature, a long-lived
+key that is reused across many decapsulations. The chosen-ciphertext and
+repeated-observation attacks above depend on precisely this key reuse to
+accumulate the queries or traces needed for key recovery. Deploying HQC in
+certificates therefore maximizes an attacker's opportunity to mount such
+attacks, and implementations that decapsulate with a certificate-bound HQC
+private key SHOULD employ side-channel-hardened implementations.
+
+## KEM Binding Properties
+
+Many protocols rely only on the IND-CCA2 security of a KEM. Some
 (implicitly) require further binding properties, formalized in {{CDM23}}.
 The private key format can influence these binding properties. Specifying
-a single seed-based private key format, rather than a caller-supplied
-expanded key, ensures that the decapsulation key is always derived by the
-key generation procedure and is consistent with the public key.
+a single seed-based private key format (see {{priv-key}}), rather than a
+caller-supplied expanded key, ensures that the decapsulation key is always
+derived by the key generation procedure and is consistent with the public
+key.
 
-HQC is an implicitly-rejecting KEM (it uses a secret rejection value in
-the Fujisaki-Okamoto transform). The binding properties of implicitly-
-rejecting KEMs, and specifically their application to BIKE and HQC, are
-analyzed in {{KSW24}}. Implementers and protocol designers relying on
-binding properties beyond IND-CCA SHOULD consult that analysis.
+HQC is an implicitly-rejecting KEM: it uses a secret rejection value in the
+Fujisaki-Okamoto transform so that decapsulating an invalid ciphertext
+returns a pseudorandom shared secret rather than an explicit error. The
+binding properties of implicitly-rejecting KEMs, and specifically their
+application to BIKE and HQC, are analyzed in {{KSW24}}. Implicitly-
+rejecting Fujisaki-Okamoto KEMs do not automatically satisfy the strongest
+binding notions; implementers and protocol designers who rely on binding
+properties beyond IND-CCA2 SHOULD consult that analysis. Where a protocol
+requires the shared secret to bind uniquely to a particular public key or
+ciphertext, that property should be established explicitly at the protocol
+layer (for example, by including the certificate or public key in the key
+derivation) rather than assumed of the KEM.
 
 # IANA Considerations
 
