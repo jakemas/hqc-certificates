@@ -95,7 +95,7 @@ informative:
     date: 2016-12-20
   CDM23:
     title: "Keeping Up with the KEMs: Stronger Security Notions for KEMs and automated analysis of KEM-based protocols"
-    target: https://eprint.iacr.org/2023/1933.pdf
+    target: https://eprint.iacr.org/2023/1933
     date: 2023
     author:
       -
@@ -156,6 +156,14 @@ informative:
       - {ins: V. Hatey, name: Valérian Hatey}
       - {ins: L. Luzzi, name: Laura Luzzi}
       - {ins: J-P. Tillich, name: Jean-Pierre Tillich}
+  GJS16:
+    title: "A Key Recovery Attack on MDPC with CCA Security Using Decoding Errors"
+    target: https://eprint.iacr.org/2016/858
+    date: 2016
+    author:
+      - {ins: Q. Guo, name: Qian Guo}
+      - {ins: T. Johansson, name: Thomas Johansson}
+      - {ins: P. Stankovski, name: Paul Stankovski}
   HQC-TIMING-2019:
     title: "A Practicable Timing Attack Against HQC and its Countermeasure"
     target: https://eprint.iacr.org/2019/909
@@ -495,96 +503,111 @@ force searching the whole key space. The generation of quality
 random numbers is difficult. Because the entire HQC keypair is derived
 deterministically from the seed (see {{priv-key}}), the secrecy and
 entropy of the seed are paramount: a weak or predictable PRNG at key
-generation compromises the whole long-term key, and the compact seed MUST
-be protected to the same degree as the fully expanded private key.
+generation compromises the whole long-term key.
 
 ## Underlying Assumption and Cryptanalysis
 
-The security of HQC is based on the hardness of the (decisional)
-Quasi-Cyclic Syndrome Decoding (QCSD) problem for random quasi-cyclic
-codes {{ABDGZ16}}. Unlike code-based schemes that rely on a hidden code
-with algebraic structure (for example, the Goppa codes of Classic
-McEliece), HQC uses random quasi-cyclic codes, so its security does not
-depend on concealing the structure of the underlying code. As a
-consequence, HQC rests on a different mathematical foundation than the
-lattice-based ML-KEM {{?I-D.ietf-lamps-kyber-certificates}}, which is a
-principal motivation for standardizing it: it offers cryptographic
-diversity against advances in lattice cryptanalysis.
+The security of HQC is based on the hardness of the decisional
+Quasi-Cyclic Syndrome Decoding (DQCSD) problem for random quasi-cyclic
+codes {{ABDGZ16}}. The reduction relies on two DQCSD instances, governing
+the indistinguishability of the public key and of the ciphertext
+respectively. Unlike code-based schemes that rely on a hidden code with
+algebraic structure (for example, the Goppa codes of Classic McEliece),
+HQC uses random quasi-cyclic codes, so its security does not depend on
+concealing the structure of the underlying code. HQC therefore rests on a
+different mathematical foundation than the lattice-based ML-KEM
+{{?I-D.ietf-lamps-kyber-certificates}}, offering cryptographic diversity
+against advances in lattice cryptanalysis.
 
-The best known attacks against QCSD reduce to generic Information Set
+The best known attacks against DQCSD reduce to generic Information Set
 Decoding (ISD); the quasi-cyclic structure yields only a Decoding One Out
 of Many {{SENDRIER11}} speedup on the order of the square root of the
-block size, which is already accounted for in the HQC parameters. The
-concrete cost of these attacks is estimated using tools such as the
-Syndrome Decoding Estimator {{SDE21}}. The concrete security of ISD
-against HQC remains an area of active research; refinements continue to
-be published (for example, {{ISD-HQC-2026}}). HQC's parameters were
-selected to offer a smaller security margin than the extremely
-conservative Classic McEliece; implementers and relying parties should
-track cryptanalytic developments, and the parameter-to-object-identifier
-mapping in this document MUST be reconciled with the values fixed by
-{{FIPS207}}.
+number of instances (equal to the circulant block length for quasi-cyclic
+codes), which is already accounted for in the HQC parameters. The concrete
+cost of these attacks is estimated using tools such as the Syndrome
+Decoding Estimator {{SDE21}}. The concrete security of ISD against HQC
+remains an area of active research, and refinements continue to be
+published (for example, {{ISD-HQC-2026}}). The HQC parameters were
+selected to offer a smaller security margin than Classic McEliece.
+Because the parameters, and hence the mapping from parameter set to object
+identifier in this document, are provisional pending {{FIPS207}}, relying
+parties are advised to track cryptanalytic developments; see also the
+editor's notes in {{oids}} and {{params}}.
 
 ## Decapsulation Failures
 
 HQC is designed so that the decapsulation failure rate (DFR) is negligible
 with respect to the targeted security level of each parameter set. This is
-essential to the IND-CCA2 security of the KEM: the tightness of the
+relevant to the IND-CCA security of the KEM: the tightness of the
 Fujisaki-Okamoto security argument depends on the correctness error of the
-underlying public-key encryption scheme. Moreover, for code-based schemes
-a decapsulation failure is correlated with the secret key, so an adversary
-who can observe or provoke failures can mount a reaction
-(decryption-failure) attack to recover secret-key structure. Choosing a DFR below the
-security level makes locating even a single failure infeasible for a
-bounded adversary.
+underlying public-key encryption scheme. Moreover, for code-based schemes a
+decapsulation failure is correlated with the secret key, so an adversary
+who can detect failures can mount a reaction (decryption-failure) attack to
+recover secret-key structure {{GJS16}}. Because HQC uses implicit
+rejection, a failure is not directly observable at the KEM interface (a
+pseudorandom shared secret is returned in either case) and can only be
+detected through a side channel or a protocol-level distinguisher.
+Choosing a DFR below the security level makes locating even a single
+failure infeasible for a bounded adversary.
 
 The claimed DFR is a property of the specific HQC decoder (a concatenated
-Reed-Muller / Reed-Solomon construction). An implementation that
-substitutes a different or approximate decoder, or that otherwise raises
-the failure probability, can silently invalidate the IND-CCA2 argument.
-Implementations MUST use the decoding procedure specified in {{FIPS207}}
-and MUST NOT introduce optimizations that increase the decapsulation
-failure rate.
+construction using an outer Reed-Solomon code and an inner Reed-Muller
+code). An implementation that substitutes a different or approximate
+decoder, or that otherwise raises the failure probability, can weaken the
+IND-CCA security argument. Implementations should use the decoding
+procedure fixed by {{FIPS207}} and avoid optimizations that increase the
+decapsulation failure rate.
 
 ## Side-Channel Attacks
 
 HQC has an extensive side-channel and micro-architectural attack
-literature, and it is the most significant implementation-security concern
-for HQC. A recurring lesson is that a constant-time C implementation is not
-sufficient on its own: several key-recovery attacks succeed against source
-code that was intended to be constant-time, because compiler optimizations
-or micro-architectural behaviour reintroduce secret-dependent timing in the
-compiled binary.
+literature. A notable feature of this literature is that a constant-time C
+implementation is not by itself sufficient: several key-recovery attacks
+succeed against source code intended to be constant-time, because compiler
+optimizations or micro-architectural behaviour reintroduce
+secret-dependent timing in the compiled binary.
 
 Documented attacks include chosen-ciphertext timing attacks against the
-decoder {{HQC-TIMING-2019}}; timing attacks exploiting the rejection
-sampling used to generate fixed-weight vectors, which succeed even when the
-decoder itself is constant-time {{HQC-REJECT-2021}}; attacks exploiting
-variable-time division instructions emitted by the compiler
-{{HQC-DIV-2024}}; cache-timing key-recovery attacks against optimized
-(for example, AVX2) implementations that claim to be constant-time
-{{HQC-AVX2-2026}}; and passive power and single-trace analysis of the
-Reed-Muller / Reed-Solomon decoder and the fixed-weight sampler
-{{HQC-POWER-2022}} {{HQC-TRACE-2025}}.
+(then Reed-Muller/BCH) decoder {{HQC-TIMING-2019}}; timing attacks
+exploiting the rejection sampling used to generate fixed-weight vectors,
+which succeed even when the decoder itself is constant-time
+{{HQC-REJECT-2021}}; attacks exploiting variable-time division
+instructions emitted by the compiler {{HQC-DIV-2024}}; cache-timing
+key-recovery attacks against optimized (for example, AVX2) implementations
+that claim to be constant-time {{HQC-AVX2-2026}}; power analysis of the
+Reed-Solomon decoder {{HQC-POWER-2022}}; and single-trace key recovery,
+in both passive and chosen-ciphertext variants {{HQC-TRACE-2025}}. The
+decoder and the fixed-weight vector sampler are recurring leakage sites.
 
-Implementations of HQC decapsulation SHOULD be verified to be constant-time
-at the level of the emitted machine code, not merely the source, and SHOULD
-avoid data-dependent branches, table lookups, and variable-latency
-instructions (such as integer division) on secret-dependent values. The
-decoder, the fixed-weight vector sampler, and polynomial multiplication are
-all documented leakage sites and warrant particular care.
+Implementations of HQC decapsulation are advised to be verified as
+constant-time at the level of the emitted machine code, not merely the
+source, and to avoid data-dependent branches, table lookups, and
+variable-latency instructions (such as integer division) on
+secret-dependent values.
 
-A public key carried in an X.509 certificate is, by its nature, a long-lived
-key that is reused across many decapsulations. The chosen-ciphertext and
-repeated-observation attacks above depend on precisely this key reuse to
-accumulate the queries or traces needed for key recovery. Deploying HQC in
-certificates therefore maximizes an attacker's opportunity to mount such
-attacks, and implementations that decapsulate with a certificate-bound HQC
-private key SHOULD employ side-channel-hardened implementations.
+A public key carried in an X.509 certificate is, by its nature, a
+long-lived key that is reused across many decapsulations. The adaptive
+chosen-ciphertext timing and cache attacks noted above
+({{HQC-TIMING-2019}}, {{HQC-REJECT-2021}}, {{HQC-DIV-2024}},
+{{HQC-AVX2-2026}}) require many decapsulation queries against a fixed key,
+so a long-lived certificate key increases the opportunity to accumulate
+them; these attacks additionally require the deployment to expose a
+decapsulation oracle whose timing or micro-architectural behaviour is
+observable to the attacker. By contrast, the single-trace attacks
+({{HQC-TRACE-2025}}) can recover the key from a single decapsulation and
+are not mitigated by limiting key reuse. Implementations that decapsulate
+with a certificate-bound HQC private key SHOULD use side-channel-hardened
+implementations.
+
+In a certificate ecosystem, a single static key is exposed to many
+ciphertexts from many parties (a multi-target setting). The FIPS 207-track
+HQC construction incorporates a per-ciphertext salt in its key derivation
+to strengthen multi-target and multi-ciphertext resistance; the exact
+construction is fixed by {{FIPS207}}.
 
 ## KEM Binding Properties
 
-Many protocols rely only on the IND-CCA2 security of a KEM. Some
+Many protocols rely only on the IND-CCA security of a KEM. Some
 (implicitly) require further binding properties, formalized in {{CDM23}}.
 The private key format can influence these binding properties. Specifying
 a single seed-based private key format (see {{priv-key}}), rather than a
@@ -599,9 +622,9 @@ binding properties of implicitly-rejecting KEMs, and specifically their
 application to BIKE and HQC, are analyzed in {{KSW24}}. Implicitly-
 rejecting Fujisaki-Okamoto KEMs do not automatically satisfy the strongest
 binding notions; implementers and protocol designers who rely on binding
-properties beyond IND-CCA2 SHOULD consult that analysis. Where a protocol
+properties beyond IND-CCA SHOULD consult that analysis. Where a protocol
 requires the shared secret to bind uniquely to a particular public key or
-ciphertext, that property should be established explicitly at the protocol
+ciphertext, that property is best established explicitly at the protocol
 layer (for example, by including the certificate or public key in the key
 derivation) rather than assumed of the KEM.
 
