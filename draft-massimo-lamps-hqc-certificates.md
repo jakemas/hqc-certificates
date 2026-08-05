@@ -492,8 +492,13 @@ The Security Considerations section of {{RFC5280}} applies to this
 specification as well.
 
 Protection of the private-key information, i.e., the seed, is vital to
-public-key cryptography. Disclosure of the private-key material to another
-entity can lead to masquerades.
+public-key cryptography. HQC is a Key-Encapsulation Mechanism, so the
+private key is a decapsulation key: an entity that obtains it can
+decapsulate any ciphertext produced for the corresponding public key and
+recover the resulting shared secrets. Disclosure of the private-key
+material therefore leads to loss of confidentiality for all data protected
+by those shared secrets, including data protected before the disclosure
+occurred.
 
 The generation of private keys relies on random numbers. The use of
 inadequate pseudo-random number generators (PRNGs) to generate these
