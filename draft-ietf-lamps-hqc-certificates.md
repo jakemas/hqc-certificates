@@ -36,6 +36,13 @@ author:
     email: jakemas@amazon.com
 
 normative:
+  FIPS207:
+    title: "Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC-KEM)"
+    target: https://csrc.nist.gov/pubs/fips/207
+    author:
+    - org: National Institute of Standards and Technology (NIST)
+    seriesinfo:
+      NIST: FIPS 207
   X680:
     target: https://www.itu.int/rec/T-REC-X.680
     title: >
@@ -74,13 +81,6 @@ informative:
     author:
       - org: HQC Team
     date: 2025
-  NIST-HQC-SELECTION:
-    target: https://www.nist.gov/news-events/news/2025/03/nist-selects-hqc-fifth-algorithm-post-quantum-encryption
-    title: >
-      NIST Selects HQC as Fifth Algorithm for Post-Quantum Encryption
-    author:
-    - org: National Institute of Standards and Technology (NIST)
-    date: 2025-03-11
   NIST-PQC:
     target: https://csrc.nist.gov/projects/post-quantum-cryptography
     title: >
@@ -122,36 +122,30 @@ informative:
 
 --- abstract
 
-The Hamming Quasi-Cyclic (HQC) Key-Encapsulation Mechanism is a
-code-based, quantum-resistant key-encapsulation mechanism (KEM) selected
-by the US National Institute of Standards and Technology (NIST) for
-standardization as FIPS 207. This document specifies the conventions for
-using HQC in the Internet X.509 Public Key Infrastructure. The conventions
-for the subject public keys and private keys are also specified.
+The Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC) is a
+quantum-resistant, code-based key-encapsulation mechanism (KEM). This
+document specifies the conventions for using HQC in the Internet X.509
+Public Key Infrastructure. The conventions for the subject public keys and
+private keys are also specified.
 
 --- middle
 
 # Introduction
 
-The Hamming Quasi-Cyclic (HQC) Key-Encapsulation Mechanism is a
-quantum-resistant KEM whose security is based on the hardness of decoding
-random quasi-cyclic codes (the syndrome decoding problem). HQC was selected
-by the US National Institute of Standards and Technology (NIST) PQC Project
-{{NIST-PQC}} in March 2025 {{NIST-HQC-SELECTION}} as a fifth algorithm for
-post-quantum encryption, complementing the lattice-based ML-KEM
-{{?I-D.ietf-lamps-kyber-certificates}}. NIST is standardizing HQC as
-FIPS 207.
-
-HQC provides an alternative to ML-KEM that rests on a different mathematical
-assumption (code-based rather than lattice-based), offering algorithm
-diversity for deployments that wish to hedge against advances in
-cryptanalysis of structured lattices.
-
-This document specifies the use of HQC in Public Key Infrastructure X.509
-(PKIX) certificates {{!RFC5280}} at three security levels corresponding to
-NIST Security Categories 1, 3, and 5, referred to in this document as
-HQC-128, HQC-192, and HQC-256, respectively. The private key format is also
+The Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC) is a
+quantum-resistant, code-based key-encapsulation mechanism (KEM)
+standardized by the US National Institute of Standards and Technology
+(NIST) PQC Project {{NIST-PQC}} in, the forthcoming, {{FIPS207}}. This
+document specifies the use of HQC in Public Key Infrastructure X.509 (PKIX)
+certificates {{!RFC5280}} at three security levels corresponding to NIST
+Security Categories 1, 3, and 5, referred to in this document as HQC-128,
+HQC-192, and HQC-256, respectively. The private key format is also
 specified.
+
+The security of HQC is based on the hardness of decoding random
+quasi-cyclic codes. As a code-based scheme, HQC rests on a different
+mathematical assumption than the lattice-based ML-KEM
+{{?I-D.ietf-lamps-kyber-certificates}}.
 
 <aside markdown="block">
   EDITOR'S NOTE: At the time of writing, FIPS 207 has not been published.
