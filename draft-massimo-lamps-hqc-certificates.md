@@ -78,6 +78,7 @@ normative:
        name: National Institute of Standards and Technology
        ins: NIST
      date: 2024-08-20
+  RFC7468:
 
 informative:
   HQC:
@@ -348,7 +349,7 @@ we define a `PUBLIC-KEY` ASN.1 type as follows.
 ~~~
   pk-hqc-kem-128 PUBLIC-KEY ::= {
     IDENTIFIER id-alg-hqc-kem-128
-    -- KEY no ASN.1 wrapping; 2249 octets --
+    -- KEY no ASN.1 wrapping; 2241 octets --
     PARAMS ARE absent
     CERT-KEY-USAGE { keyEncipherment }
     PRIVATE-KEY HQC-KEM-128-PrivateKey -- defined in Section 6
@@ -356,7 +357,7 @@ we define a `PUBLIC-KEY` ASN.1 type as follows.
 
   pk-hqc-kem-192 PUBLIC-KEY ::= {
     IDENTIFIER id-alg-hqc-kem-192
-    -- KEY no ASN.1 wrapping; 4522 octets --
+    -- KEY no ASN.1 wrapping; 4514 octets --
     PARAMS ARE absent
     CERT-KEY-USAGE { keyEncipherment }
     PRIVATE-KEY HQC-KEM-192-PrivateKey -- defined in Section 6
@@ -364,17 +365,17 @@ we define a `PUBLIC-KEY` ASN.1 type as follows.
 
   pk-hqc-kem-256 PUBLIC-KEY ::= {
     IDENTIFIER id-alg-hqc-kem-256
-    -- KEY no ASN.1 wrapping; 7245 octets --
+    -- KEY no ASN.1 wrapping; 7237 octets --
     PARAMS ARE absent
     CERT-KEY-USAGE { keyEncipherment }
     PRIVATE-KEY HQC-KEM-256-PrivateKey -- defined in Section 6
   }
 
-  HQC-KEM-128-PublicKey ::= OCTET STRING (SIZE (2249))
+  HQC-KEM-128-PublicKey ::= OCTET STRING (SIZE (2241))
 
-  HQC-KEM-192-PublicKey ::= OCTET STRING (SIZE (4522))
+  HQC-KEM-192-PublicKey ::= OCTET STRING (SIZE (4514))
 
-  HQC-KEM-256-PublicKey ::= OCTET STRING (SIZE (7245))
+  HQC-KEM-256-PublicKey ::= OCTET STRING (SIZE (7237))
 ~~~
 
 <aside markdown="block">
@@ -664,10 +665,107 @@ the published FIPS 207 standard.
 
 | Level | Parameter Set | Public Key | Ciphertext | Shared Secret |
 |-      |-              |-           |-           |-              |
-| 1     | HQC-KEM-128       | 2249       | 4497       | 32            |
-| 3     | HQC-KEM-192       | 4522       | 9042       | 32            |
-| 5     | HQC-KEM-256       | 7245       | TBD        | 32            |
+| 1     | HQC-KEM-128       | 2241       | 4433       | 32            |
+| 3     | HQC-KEM-192       | 4514       | 8978       | 32            |
+| 5     | HQC-KEM-256       | 7237       | 14421      | 32            |
 {: #tab-strengths title="Mapping between NIST Security Level, HQC parameter set, and provisional sizes in bytes"}
+
+# Examples {#examples}
+
+This appendix contains examples of HQC-KEM public keys and private keys.
+
+<aside markdown="block">
+  RFC EDITOR: The algorithm identifiers in these examples use placeholder
+  object identifiers under the NIST "kems" arc pending assignment by NIST/CSOR
+  once FIPS 207 is published; the examples will be regenerated with the
+  assigned values. The key sizes shown are those produced by a reference
+  implementation of the HQC specification and are provisional until confirmed
+  against the published FIPS 207 standard.
+</aside>
+
+## Example Private Keys {#example-private}
+
+The following examples show HQC-KEM private keys for each security level,
+all derived from the same seed `000102...1e1f`. HQC uses the seed as the only
+private-key representation (using a context-specific `[0]` primitive tag with
+an implicit encoding of `OCTET STRING`).
+
+### HQC-KEM-128 Private Key
+
+Each of the examples includes the textual encoding {{RFC7468}} followed by
+the so-called "pretty print"; the private keys are the same.
+
+~~~
+{::include ./example/HQC-KEM-128-seed.priv}
+~~~
+
+~~~
+{::include ./example/HQC-KEM-128-seed.priv.txt}
+~~~
+
+### HQC-KEM-192 Private Key
+
+Each of the examples includes the textual encoding {{RFC7468}} followed by
+the so-called "pretty print"; the private keys are the same.
+
+~~~
+{::include ./example/HQC-KEM-192-seed.priv}
+~~~
+
+~~~
+{::include ./example/HQC-KEM-192-seed.priv.txt}
+~~~
+
+### HQC-KEM-256 Private Key
+
+Each of the examples includes the textual encoding {{RFC7468}} followed by
+the so-called "pretty print"; the private keys are the same.
+
+~~~
+{::include ./example/HQC-KEM-256-seed.priv}
+~~~
+
+~~~
+{::include ./example/HQC-KEM-256-seed.priv.txt}
+~~~
+
+## Example Public Keys {#example-public}
+
+The following is the HQC-KEM-128 public key corresponding to the private
+key in the previous section. The textual encoding {{RFC7468}} is
+followed by the so-called "pretty print"; the public keys are the same.
+
+~~~
+{::include ./example/HQC-KEM-128.pub}
+~~~
+
+~~~
+{::include ./example/HQC-KEM-128.pub.txt}
+~~~
+
+The following is the HQC-KEM-192 public key corresponding to the private
+key in the previous section. The textual encoding {{RFC7468}} is
+followed by the so-called "pretty print"; the public keys are the same.
+
+~~~
+{::include ./example/HQC-KEM-192.pub}
+~~~
+
+~~~
+{::include ./example/HQC-KEM-192.pub.txt}
+~~~
+
+The following is the HQC-KEM-256 public key corresponding to the private
+key in the previous section. The textual encoding {{RFC7468}} is
+followed by the so-called "pretty print"; the public keys are the same.
+
+~~~
+{::include ./example/HQC-KEM-256.pub}
+~~~
+
+~~~
+{::include ./example/HQC-KEM-256.pub.txt}
+~~~
 
 # Acknowledgments
 {:numbered="false"}

@@ -65,7 +65,7 @@ PublicKeys PUBLIC-KEY ::= {
 
 pk-hqc-kem-128 PUBLIC-KEY ::= {
   IDENTIFIER id-alg-hqc-kem-128
-  -- KEY no ASN.1 wrapping; 2249 octets --
+  -- KEY no ASN.1 wrapping; 2241 octets --
   PARAMS ARE absent
   CERT-KEY-USAGE { keyEncipherment }
   PRIVATE-KEY HQC-KEM-128-PrivateKey
@@ -77,7 +77,7 @@ HQC-KEM-128-PrivateKey ::= CHOICE {
 
 pk-hqc-kem-192 PUBLIC-KEY ::= {
   IDENTIFIER id-alg-hqc-kem-192
-  -- KEY no ASN.1 wrapping; 4522 octets --
+  -- KEY no ASN.1 wrapping; 4514 octets --
   PARAMS ARE absent
   CERT-KEY-USAGE { keyEncipherment }
   PRIVATE-KEY HQC-KEM-192-PrivateKey
@@ -89,7 +89,7 @@ HQC-KEM-192-PrivateKey ::= CHOICE {
 
 pk-hqc-kem-256 PUBLIC-KEY ::= {
   IDENTIFIER id-alg-hqc-kem-256
-  -- KEY no ASN.1 wrapping; 7245 octets --
+  -- KEY no ASN.1 wrapping; 7237 octets --
   PARAMS ARE absent
   CERT-KEY-USAGE { keyEncipherment }
   PRIVATE-KEY HQC-KEM-256-PrivateKey
@@ -99,10 +99,10 @@ HQC-KEM-256-PrivateKey ::= CHOICE {
   seed [0] OCTET STRING (SIZE (32))
   }
 
-HQC-KEM-128-PublicKey ::= OCTET STRING (SIZE (2249))
+HQC-KEM-128-PublicKey ::= OCTET STRING (SIZE (2241))
 
-HQC-KEM-192-PublicKey ::= OCTET STRING (SIZE (4522))
+HQC-KEM-192-PublicKey ::= OCTET STRING (SIZE (4514))
 
-HQC-KEM-256-PublicKey ::= OCTET STRING (SIZE (7245))
+HQC-KEM-256-PublicKey ::= OCTET STRING (SIZE (7237))
 
 END
