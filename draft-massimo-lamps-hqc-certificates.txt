@@ -9,7 +9,7 @@ Expires: 6 February 2027                                   5 August 2026
 
 
 Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the
-         Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC)
+       Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC-KEM)
               draft-massimo-lamps-hqc-certificates-latest
 
 Abstract
