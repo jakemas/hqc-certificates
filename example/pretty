@@ -1,0 +1,16 @@
+#!/bin/sh
+# Pretty-print the HQC example DER files to ASCII (matches the kyber example).
+
+for i in HQC-KEM-{128,192,256}.pub
+do
+    der2ascii -pem -i $i -o $i.tmp
+    fold -w 64 $i.tmp > $i.txt
+    rm $i.tmp
+done
+
+for i in HQC-KEM-{128,192,256}-seed.priv
+do
+    der2ascii -pem -i $i -o $i.tmp
+    fold -w 64 $i.tmp > $i.txt
+    rm $i.tmp
+done
