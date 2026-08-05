@@ -24,11 +24,11 @@ IMPORTS
 --
 -- HQC Identifiers
 --
--- NOTE: The object identifiers below are PLACEHOLDERS.  NIST is expected
--- to assign HQC object identifiers under the Computer Security Objects
--- Register (CSOR) once FIPS 207 is published.  The arc shown mirrors the
--- ML-KEM assignment (nistAlgorithms.4 "kems") and MUST be replaced with
--- the values assigned by NIST.
+-- NOTE: The object identifiers below are PLACEHOLDERS.  NIST is
+-- expected to assign HQC object identifiers under the Computer
+-- Security Objects Register (CSOR) once FIPS 207 is published.  The
+-- arc shown mirrors the ML-KEM assignment (nistAlgorithms.4 "kems")
+-- and MUST be replaced with the values assigned by NIST.
 --
 
 nistAlgorithms OBJECT IDENTIFIER ::= { joint-iso-ccitt(2)
@@ -58,9 +58,9 @@ PublicKeys PUBLIC-KEY ::= {
 --
 -- HQC Public Keys
 --
--- NOTE: The public key sizes below are provisional and follow the HQC
--- parameters under consideration for FIPS 207.  They MUST be confirmed
--- against the published FIPS 207 standard.
+-- NOTE: The public key sizes below are provisional and follow the
+-- HQC parameters under consideration for FIPS 207.  They MUST be
+-- confirmed against the published FIPS 207 standard.
 --
 
 pk-hqc-128 PUBLIC-KEY ::= {
