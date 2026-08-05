@@ -1,7 +1,7 @@
 ---
 title: >
   Internet X.509 Public Key Infrastructure - Algorithm Identifiers
-  for the Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC)
+  for the Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC-KEM)
 abbrev: HQC in Certificates
 category: std
 

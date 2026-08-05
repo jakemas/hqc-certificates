@@ -2,7 +2,7 @@
 
 This is the working area for an individual Internet-Draft: "Internet X.509
 Public Key Infrastructure - Algorithm Identifiers for the Hamming
-Quasi-Cyclic Key-Encapsulation Mechanism (HQC)".
+Quasi-Cyclic Key-Encapsulation Mechanism (HQC-KEM)".
 
 HQC is the code-based Key-Encapsulation Mechanism (KEM) selected by NIST in
 March 2025 for standardization as FIPS 207. This document specifies the
