@@ -1,0 +1,2965 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC)</title>
+<meta content="Jake Massimo" name="author">
+<meta content="Panos Kampanakis" name="author">
+<meta content="
+       The Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC) is a
+quantum-resistant, code-based key-encapsulation mechanism (KEM). This
+document specifies the conventions for using HQC in the Internet X.509
+Public Key Infrastructure. The conventions for the subject public keys and
+private keys are also specified. 
+    " name="description">
+<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="HQC KEM Certificate X.509 PKIX Post-Quantum" name="keyword">
+<meta content="draft-massimo-lamps-hqc-certificates-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.11.0
+    pycountry 24.6.1
+    PyYAML 6.0.3
+    requests 2.33.1
+    wcwidth 0.8.2
+-->
+<link href="draft-massimo-lamps-hqc-certificates.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight {
+  margin: 1em 0;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
+}
+svg {
+  display: block;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
+}
+.alignCenter {
+  margin: 1em 0;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+      float: none;
+    }
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a {
+  text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
+}
+.iref + a[href].internal {
+  color: var(--text-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
+  }
+  @media print {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+  & .prepared {
+    float: right;
+  }
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
+  }
+}
+
+/* Comments */
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
+      }
+    }
+    & a.toplink {
+      float: right;
+    }
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
+    }
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc {
+    page-break-before: always;
+    border-top: none;
+    padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">HQC in Certificates</td>
+<td class="right">August 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Massimo &amp; Kampanakis</td>
+<td class="center">Expires 6 February 2027</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">LAMPS</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-massimo-lamps-hqc-certificates-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-08-05" class="published">5 August 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2027-02-06">6 February 2027</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">J. Massimo</div>
+<div class="org">AWS</div>
+</div>
+<div class="author">
+      <div class="author-name">P. Kampanakis</div>
+<div class="org">AWS</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC)</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">The Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC) is a
+quantum-resistant, code-based key-encapsulation mechanism (KEM). This
+document specifies the conventions for using HQC in the Internet X.509
+Public Key Infrastructure. The conventions for the subject public keys and
+private keys are also specified.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://jakemas.github.io/hqc-certificates/#go.draft-massimo-lamps-hqc-certificates.html">https://jakemas.github.io/hqc-certificates/#go.draft-massimo-lamps-hqc-certificates.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-massimo-lamps-hqc-certificates/">https://datatracker.ietf.org/doc/draft-massimo-lamps-hqc-certificates/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        Limited Additional Mechanisms for PKIX and SMIME (lamps) Working Group mailing list (<span><a href="mailto:spasm@ietf.org">mailto:spasm@ietf.org</a></span>),
+        which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/spasm/">https://mailarchive.ietf.org/arch/browse/spasm/</a></span>.
+        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/spasm/">https://www.ietf.org/mailman/listinfo/spasm/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/jakemas/hqc-certificates">https://github.com/jakemas/hqc-certificates</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 6 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-applicability-statement" class="internal xref">Applicability Statement</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-algorithm-identifiers" class="internal xref">Algorithm Identifiers</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-subject-public-key-fields" class="internal xref">Subject Public Key Fields</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-key-usage-bits" class="internal xref">Key Usage Bits</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-private-key-format" class="internal xref">Private Key Format</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-underlying-assumption-and-c" class="internal xref">Underlying Assumption and Cryptanalysis</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-decapsulation-failures" class="internal xref">Decapsulation Failures</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-side-channel-attacks" class="internal xref">Side-Channel Attacks</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-kem-binding-properties" class="internal xref">KEM Binding Properties</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-asn1-module" class="internal xref">ASN.1 Module</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-parameter-set-security-and-" class="internal xref">Parameter Set Security and Sizes</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
+                <p id="section-toc.1-1.12.2.1.1"><a href="#appendix-C.1" class="auto internal xref">C.1</a>.  <a href="#name-example-private-keys" class="internal xref">Example Private Keys</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.1">
+                    <p id="section-toc.1-1.12.2.1.2.1.1"><a href="#appendix-C.1.1" class="auto internal xref">C.1.1</a>.  <a href="#name-hqc-kem-128-private-key" class="internal xref">HQC-KEM-128 Private Key</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.2">
+                    <p id="section-toc.1-1.12.2.1.2.2.1"><a href="#appendix-C.1.2" class="auto internal xref">C.1.2</a>.  <a href="#name-hqc-kem-192-private-key" class="internal xref">HQC-KEM-192 Private Key</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.3">
+                    <p id="section-toc.1-1.12.2.1.2.3.1"><a href="#appendix-C.1.3" class="auto internal xref">C.1.3</a>.  <a href="#name-hqc-kem-256-private-key" class="internal xref">HQC-KEM-256 Private Key</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
+                <p id="section-toc.1-1.12.2.2.1"><a href="#appendix-C.2" class="auto internal xref">C.2</a>.  <a href="#name-example-public-keys" class="internal xref">Example Public Keys</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">The Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC) is a
+quantum-resistant, code-based key-encapsulation mechanism (KEM)
+standardized by the US National Institute of Standards and Technology
+(NIST) PQC Project <span>[<a href="#NIST-PQC" class="cite xref">NIST-PQC</a>]</span> in, the forthcoming, <span>[<a href="#FIPS207" class="cite xref">FIPS207</a>]</span>. This
+document specifies the use of HQC in Public Key Infrastructure X.509 (PKIX)
+certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> at three security levels corresponding to NIST
+Security Categories 1, 3, and 5, referred to in this document as HQC-KEM-128,
+HQC-KEM-192, and HQC-KEM-256, respectively. The private key format is also
+specified.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">The security of HQC is based on the hardness of decoding random
+quasi-cyclic codes. As a code-based scheme, HQC rests on a different
+mathematical assumption than the lattice-based ML-KEM
+<span>[<a href="#I-D.ietf-lamps-kyber-certificates" class="cite xref">I-D.ietf-lamps-kyber-certificates</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<aside id="section-1-3">
+        <p id="section-1-3.1">EDITOR'S NOTE: At the time of writing, FIPS 207 has not been published.
+  The HQC parameters, algorithm construction, key sizes, and object
+  identifiers referenced in this document are provisional and are based on
+  the round-4 HQC submission <span>[<a href="#HQC" class="cite xref">HQC</a>]</span> and on changes announced by NIST as
+  under consideration for FIPS 207. All values marked "TBD" or described as
+  provisional <span class="bcp14">MUST</span> be reconciled against the published FIPS 207 standard
+  before this document is finalized.<a href="#section-1-3.1" class="pilcrow">¶</a></p>
+</aside>
+<div id="applicability-statement">
+<section id="section-1.1">
+        <h3 id="name-applicability-statement">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-applicability-statement" class="section-name selfRef">Applicability Statement</a>
+        </h3>
+<p id="section-1.1-1">HQC certificates are used in protocols where the public key is used to
+generate and encapsulate a shared secret used to derive a symmetric key
+used to encrypt a payload. NIST positions HQC as well suited to
+applications requiring long-term keys, small ciphertexts relative to other
+code-based KEMs, and fast encapsulation and decapsulation. To be used in
+TLS, HQC certificates could only be used as end-entity identity
+certificates and would require significant updates to the protocol.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="oids">
+<section id="section-3">
+      <h2 id="name-algorithm-identifiers">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-algorithm-identifiers" class="section-name selfRef">Algorithm Identifiers</a>
+      </h2>
+<p id="section-3-1">The <code>AlgorithmIdentifier</code> type is defined in <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span> as follows:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-2">
+<pre>
+  AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
+    SEQUENCE {
+      algorithm   ALGORITHM-TYPE.&amp;id({AlgorithmSet}),
+      parameters  ALGORITHM-TYPE.
+                    &amp;Params({AlgorithmSet}{@algorithm}) OPTIONAL
+    }
+</pre><a href="#section-3-2" class="pilcrow">¶</a>
+</div>
+<aside id="section-3-3">
+        <p id="section-3-3.1">NOTE: The above syntax is from <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span> and is compatible with the
+  2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>. See <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> for the 1988 ASN.1 syntax.<a href="#section-3-3.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-3-4">The fields in <code>AlgorithmIdentifier</code> have the following meanings:<a href="#section-3-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-5.1">
+          <p id="section-3-5.1.1"><code>algorithm</code> identifies the cryptographic algorithm with an object
+identifier.<a href="#section-3-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-5.2">
+          <p id="section-3-5.2.1"><code>parameters</code>, which are optional, are the associated parameters for
+the algorithm identifier in the <code>algorithm</code> field.<a href="#section-3-5.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-3-6">The <code>AlgorithmIdentifier</code> for an HQC public key <span class="bcp14">MUST</span> use one of the
+<code>id-alg-hqc-kem</code> object identifiers (OID) listed below, based on the security
+level. The <code>parameters</code> field of the <code>AlgorithmIdentifier</code> for the HQC
+public key <span class="bcp14">MUST</span> be absent.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<aside id="section-3-7">
+        <p id="section-3-7.1">EDITOR'S NOTE: The object identifiers below are PLACEHOLDERS. NIST is
+  expected to assign HQC object identifiers under the Computer Security
+  Objects Register (CSOR) <span>[<a href="#CSOR" class="cite xref">CSOR</a>]</span> once FIPS 207 is published. The arc
+  shown mirrors the ML-KEM "kems" assignment and <span class="bcp14">MUST</span> be replaced with the
+  values assigned by NIST.<a href="#section-3-7.1" class="pilcrow">¶</a></p>
+</aside>
+<div class="alignLeft art-text artwork" id="section-3-8">
+<pre>
+  nistAlgorithms OBJECT IDENTIFIER ::= { joint-iso-ccitt(2)
+    country(16) us(840) organization(1) gov(101) csor(3)
+    nistAlgorithm(4) }
+
+  kems OBJECT IDENTIFIER ::= { nistAlgorithms 4 }
+
+  id-alg-hqc-kem-128 OBJECT IDENTIFIER ::= { kems TBD1 }
+
+  id-alg-hqc-kem-192 OBJECT IDENTIFIER ::= { kems TBD2 }
+
+  id-alg-hqc-kem-256 OBJECT IDENTIFIER ::= { kems TBD3 }
+</pre><a href="#section-3-8" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="pub-key">
+<section id="section-4">
+      <h2 id="name-subject-public-key-fields">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-subject-public-key-fields" class="section-name selfRef">Subject Public Key Fields</a>
+      </h2>
+<p id="section-4-1">In the X.509 certificate, the <code>subjectPublicKeyInfo</code> field has the
+<code>SubjectPublicKeyInfo</code> type, which has the following ASN.1 syntax:<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4-2">
+<pre>
+  SubjectPublicKeyInfo {PUBLIC-KEY: IOSet} ::= SEQUENCE {
+      algorithm        AlgorithmIdentifier {PUBLIC-KEY, {IOSet}},
+      subjectPublicKey BIT STRING
+  }
+</pre><a href="#section-4-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4-3">The fields in <code>SubjectPublicKeyInfo</code> have the following meaning:<a href="#section-4-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4-4.1">
+          <p id="section-4-4.1.1"><code>algorithm</code> is the algorithm identifier and parameters for the
+public key (see above).<a href="#section-4-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-4.2">
+          <p id="section-4-4.2.1"><code>subjectPublicKey</code> contains the byte stream of the public key.<a href="#section-4-4.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-4-5">For each HQC parameter set, see <a href="#tab-strengths" class="auto internal xref">Table 1</a>,
+we define a <code>PUBLIC-KEY</code> ASN.1 type as follows.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4-6">
+<pre>
+  pk-hqc-kem-128 PUBLIC-KEY ::= {
+    IDENTIFIER id-alg-hqc-kem-128
+    -- KEY no ASN.1 wrapping; 2241 octets --
+    PARAMS ARE absent
+    CERT-KEY-USAGE { keyEncipherment }
+    PRIVATE-KEY HQC-KEM-128-PrivateKey -- defined in Section 6
+    }
+
+  pk-hqc-kem-192 PUBLIC-KEY ::= {
+    IDENTIFIER id-alg-hqc-kem-192
+    -- KEY no ASN.1 wrapping; 4514 octets --
+    PARAMS ARE absent
+    CERT-KEY-USAGE { keyEncipherment }
+    PRIVATE-KEY HQC-KEM-192-PrivateKey -- defined in Section 6
+    }
+
+  pk-hqc-kem-256 PUBLIC-KEY ::= {
+    IDENTIFIER id-alg-hqc-kem-256
+    -- KEY no ASN.1 wrapping; 7237 octets --
+    PARAMS ARE absent
+    CERT-KEY-USAGE { keyEncipherment }
+    PRIVATE-KEY HQC-KEM-256-PrivateKey -- defined in Section 6
+  }
+
+  HQC-KEM-128-PublicKey ::= OCTET STRING (SIZE (2241))
+
+  HQC-KEM-192-PublicKey ::= OCTET STRING (SIZE (4514))
+
+  HQC-KEM-256-PublicKey ::= OCTET STRING (SIZE (7237))
+</pre><a href="#section-4-6" class="pilcrow">¶</a>
+</div>
+<aside id="section-4-7">
+        <p id="section-4-7.1">EDITOR'S NOTE: The public key sizes above are provisional, based on the
+  HQC parameters under consideration for FIPS 207, and <span class="bcp14">MUST</span> be confirmed
+  against the published standard.<a href="#section-4-7.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-4-8">When an HQC public key appears outside of a <code>SubjectPublicKeyInfo</code>
+type in an environment that uses ASN.1 encoding, it can be encoded
+as an OCTET STRING by using the <code>HQC-KEM-128-PublicKey</code>,
+<code>HQC-KEM-192-PublicKey</code>, and <code>HQC-KEM-256-PublicKey</code> types corresponding to
+the correct key size.<a href="#section-4-8" class="pilcrow">¶</a></p>
+<p id="section-4-9"><span>[<a href="#RFC5958" class="cite xref">RFC5958</a>]</span> describes the Asymmetric Key Package's <code>OneAsymmetricKey</code>
+type for encoding asymmetric keypairs. When an HQC private key or
+keypair is encoded as a <code>OneAsymmetricKey</code>, it follows the description
+in <a href="#priv-key" class="auto internal xref">Section 6</a>.<a href="#section-4-9" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="key-usage-bits">
+<section id="section-5">
+      <h2 id="name-key-usage-bits">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-key-usage-bits" class="section-name selfRef">Key Usage Bits</a>
+      </h2>
+<p id="section-5-1">The intended application for the key is indicated in the keyUsage certificate
+extension; see <span><a href="https://rfc-editor.org/rfc/rfc5280#section-4.2.1.3" class="relref">Section 4.2.1.3</a> of [<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>. If the <code>keyUsage</code> extension is
+present in certificates, then <code>keyEncipherment</code> <span class="bcp14">MUST</span> be the only key usage set
+for certificates that indicate <code>id-alg-hqc-kem-*</code> in <code>SubjectPublicKeyInfo</code>,
+(with <code>*</code> either 128, 192, or 256.)<a href="#section-5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="priv-key">
+<section id="section-6">
+      <h2 id="name-private-key-format">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-private-key-format" class="section-name selfRef">Private Key Format</a>
+      </h2>
+<p id="section-6-1">An HQC keypair is generated from a single seed. The seed is sampled
+uniformly at random from a cryptographically secure random number
+generator, and the decapsulation key and public key are derived
+deterministically from the seed during key generation.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">Because the entire keypair is reproducible from the seed, this document
+specifies the seed as the private key format. This aligns with the
+direction NIST has indicated for FIPS 207, in which the seed is expected to
+be the permissible key format, and it avoids the interoperability
+complexity of supporting multiple private key representations.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<aside id="section-6-3">
+        <p id="section-6-3.1">EDITOR'S NOTE: The seed length is provisional pending FIPS 207. A
+  32-octet seed is used here consistent with the HQC construction under
+  consideration. This <span class="bcp14">MUST</span> be confirmed against the published standard.<a href="#section-6-3.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-6-4">"Asymmetric Key Packages" <span>[<a href="#RFC5958" class="cite xref">RFC5958</a>]</span> describes how to encode a private
+key in a structure that both identifies which algorithm the private key
+is for and allows for the public key and additional attributes about the
+key to be included as well. For illustration, the ASN.1 structure
+<code>OneAsymmetricKey</code> is replicated below.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6-5">
+<pre>
+  OneAsymmetricKey ::= SEQUENCE {
+    version                  Version,
+    privateKeyAlgorithm      SEQUENCE {
+    algorithm                PUBLIC-KEY.&amp;id({PublicKeySet}),
+    parameters               PUBLIC-KEY.&amp;Params({PublicKeySet}
+                               {@privateKeyAlgorithm.algorithm})
+                                  OPTIONAL}
+    privateKey               OCTET STRING (CONTAINING
+                               PUBLIC-KEY.&amp;PrivateKey({PublicKeySet}
+                                 {@privateKeyAlgorithm.algorithm})),
+    attributes           [0] Attributes OPTIONAL,
+    ...,
+    [[2: publicKey       [1] BIT STRING (CONTAINING
+                               PUBLIC-KEY.&amp;Params({PublicKeySet}
+                                 {@privateKeyAlgorithm.algorithm})
+                                 OPTIONAL ]],
+    ...
+  }
+</pre><a href="#section-6-5" class="pilcrow">¶</a>
+</div>
+<p id="section-6-6">For HQC private keys, the privateKey field in <code>OneAsymmetricKey</code> contains
+the following DER-encoded <code>CHOICE</code> structure. The <code>seed</code> format is a fixed
+<code>OCTET STRING</code> for all security levels.<a href="#section-6-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6-7">
+<pre>
+  HQC-KEM-128-PrivateKey ::= CHOICE {
+    seed [0] OCTET STRING (SIZE (32))
+    }
+
+  HQC-KEM-192-PrivateKey ::= CHOICE {
+    seed [0] OCTET STRING (SIZE (32))
+    }
+
+  HQC-KEM-256-PrivateKey ::= CHOICE {
+    seed [0] OCTET STRING (SIZE (32))
+    }
+</pre><a href="#section-6-7" class="pilcrow">¶</a>
+</div>
+<p id="section-6-8">The <code>seed</code> format (tag [0]) contains the seed value from which both the
+decapsulation key and the public key are deterministically derived by the
+HQC key generation procedure.<a href="#section-6-8" class="pilcrow">¶</a></p>
+<p id="section-6-9">The <code>privateKeyAlgorithm</code> field uses the <code>AlgorithmIdentifier</code> structure
+with the appropriate OID as defined in <a href="#oids" class="auto internal xref">Section 3</a>.<a href="#section-6-9" class="pilcrow">¶</a></p>
+<p id="section-6-10">If present, the <code>publicKey</code> field will hold the encoded public key as
+defined in <a href="#pub-key" class="auto internal xref">Section 4</a>.<a href="#section-6-10" class="pilcrow">¶</a></p>
+<aside id="section-6-11">
+        <p id="section-6-11.1">EDITOR'S NOTE: This document currently specifies a single, seed-only
+  private key format, following NIST's stated leaning for FIPS 207 and the
+  working preference for a single portable format. If FIPS 207 ultimately
+  permits an expanded/decapsulation-key format in addition to the seed,
+  this section will be revisited (compare the seed / expandedKey / both
+  <code>CHOICE</code> in <span>[<a href="#I-D.ietf-lamps-kyber-certificates" class="cite xref">I-D.ietf-lamps-kyber-certificates</a>]</span>).<a href="#section-6-11.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-7">
+      <h2 id="name-security-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-7-1">The Security Considerations section of <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> applies to this
+specification as well.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">Protection of the private-key information, i.e., the seed, is vital to
+public-key cryptography. Disclosure of the private-key material to another
+entity can lead to masquerades.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">The generation of private keys relies on random numbers. The use of
+inadequate pseudo-random number generators (PRNGs) to generate these
+values can result in little or no security. An attacker may find it
+much easier to reproduce the PRNG environment that produced the keys,
+searching the resulting small set of possibilities, rather than brute
+force searching the whole key space. The generation of quality
+random numbers is difficult. Because the entire HQC keypair is derived
+deterministically from the seed (see <a href="#priv-key" class="auto internal xref">Section 6</a>), the secrecy and
+entropy of the seed are paramount: a weak or predictable PRNG at key
+generation compromises the whole long-term key.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<div id="underlying-assumption-and-cryptanalysis">
+<section id="section-7.1">
+        <h3 id="name-underlying-assumption-and-c">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-underlying-assumption-and-c" class="section-name selfRef">Underlying Assumption and Cryptanalysis</a>
+        </h3>
+<p id="section-7.1-1">The security of HQC is based on the hardness of the decisional
+Quasi-Cyclic Syndrome Decoding (DQCSD) problem for random quasi-cyclic
+codes <span>[<a href="#ABDGZ16" class="cite xref">ABDGZ16</a>]</span>. The reduction relies on two DQCSD instances, governing
+the indistinguishability of the public key and of the ciphertext
+respectively. Unlike code-based schemes that rely on a hidden code with
+algebraic structure (for example, the Goppa codes of Classic McEliece),
+HQC uses random quasi-cyclic codes, so its security does not depend on
+concealing the structure of the underlying code. HQC therefore rests on a
+different mathematical foundation than the lattice-based ML-KEM
+<span>[<a href="#I-D.ietf-lamps-kyber-certificates" class="cite xref">I-D.ietf-lamps-kyber-certificates</a>]</span>, offering cryptographic diversity
+against advances in lattice cryptanalysis.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">The best known attacks against DQCSD reduce to generic Information Set
+Decoding (ISD); the quasi-cyclic structure yields only a Decoding One Out
+of Many <span>[<a href="#SENDRIER11" class="cite xref">SENDRIER11</a>]</span> speedup on the order of the square root of the
+number of instances (equal to the circulant block length for quasi-cyclic
+codes), which is already accounted for in the HQC parameters. The concrete
+cost of these attacks is estimated using tools such as the Syndrome
+Decoding Estimator <span>[<a href="#SDE21" class="cite xref">SDE21</a>]</span>. The concrete security of ISD against HQC
+remains an area of active research, and refinements continue to be
+published (for example, <span>[<a href="#ISD-HQC-2026" class="cite xref">ISD-HQC-2026</a>]</span>). The HQC parameters were
+selected to offer a smaller security margin than Classic McEliece.
+Because the parameters, and hence the mapping from parameter set to object
+identifier in this document, are provisional pending <span>[<a href="#FIPS207" class="cite xref">FIPS207</a>]</span>, relying
+parties are advised to track cryptanalytic developments; see also the
+editor's notes in <a href="#oids" class="auto internal xref">Section 3</a> and <a href="#params" class="auto internal xref">Appendix B</a>.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="decapsulation-failures">
+<section id="section-7.2">
+        <h3 id="name-decapsulation-failures">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-decapsulation-failures" class="section-name selfRef">Decapsulation Failures</a>
+        </h3>
+<p id="section-7.2-1">HQC is designed so that the decapsulation failure rate (DFR) is negligible
+with respect to the targeted security level of each parameter set. This is
+relevant to the IND-CCA security of the KEM: the tightness of the
+Fujisaki-Okamoto security argument depends on the correctness error of the
+underlying public-key encryption scheme. Moreover, for code-based schemes a
+decapsulation failure is correlated with the secret key, so an adversary
+who can detect failures can mount a reaction (decryption-failure) attack to
+recover secret-key structure <span>[<a href="#GJS16" class="cite xref">GJS16</a>]</span>. Because HQC uses implicit
+rejection, a failure is not directly observable at the KEM interface (a
+pseudorandom shared secret is returned in either case) and can only be
+detected through a side channel or a protocol-level distinguisher.
+Choosing a DFR below the security level makes locating even a single
+failure infeasible for a bounded adversary.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">The claimed DFR is a property of the specific HQC decoder (a concatenated
+construction using an outer Reed-Solomon code and an inner Reed-Muller
+code). An implementation that substitutes a different or approximate
+decoder, or that otherwise raises the failure probability, can weaken the
+IND-CCA security argument. Implementations should use the decoding
+procedure fixed by <span>[<a href="#FIPS207" class="cite xref">FIPS207</a>]</span> and avoid optimizations that increase the
+decapsulation failure rate.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="side-channel-attacks">
+<section id="section-7.3">
+        <h3 id="name-side-channel-attacks">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-side-channel-attacks" class="section-name selfRef">Side-Channel Attacks</a>
+        </h3>
+<p id="section-7.3-1">HQC has an extensive side-channel and micro-architectural attack
+literature. A notable feature of this literature is that a constant-time C
+implementation is not by itself sufficient: several key-recovery attacks
+succeed against source code intended to be constant-time, because compiler
+optimizations or micro-architectural behaviour reintroduce
+secret-dependent timing in the compiled binary.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">Documented attacks include chosen-ciphertext timing attacks against the
+(then Reed-Muller/BCH) decoder <span>[<a href="#HQC-TIMING-2019" class="cite xref">HQC-TIMING-2019</a>]</span>; timing attacks
+exploiting the rejection sampling used to generate fixed-weight vectors,
+which succeed even when the decoder itself is constant-time
+<span>[<a href="#HQC-REJECT-2021" class="cite xref">HQC-REJECT-2021</a>]</span>; attacks exploiting variable-time division
+instructions emitted by the compiler <span>[<a href="#HQC-DIV-2024" class="cite xref">HQC-DIV-2024</a>]</span>; cache-timing
+key-recovery attacks against optimized (for example, AVX2) implementations
+that claim to be constant-time <span>[<a href="#HQC-AVX2-2026" class="cite xref">HQC-AVX2-2026</a>]</span>; power analysis of the
+Reed-Solomon decoder <span>[<a href="#HQC-POWER-2022" class="cite xref">HQC-POWER-2022</a>]</span>; and single-trace key recovery,
+in both passive and chosen-ciphertext variants <span>[<a href="#HQC-TRACE-2025" class="cite xref">HQC-TRACE-2025</a>]</span>. The
+decoder and the fixed-weight vector sampler are recurring leakage sites.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-3">Implementations of HQC decapsulation are advised to be verified as
+constant-time at the level of the emitted machine code, not merely the
+source, and to avoid data-dependent branches, table lookups, and
+variable-latency instructions (such as integer division) on
+secret-dependent values.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3-4">A public key carried in an X.509 certificate is, by its nature, a
+long-lived key that is reused across many decapsulations. The adaptive
+chosen-ciphertext timing and cache attacks noted above
+(<span>[<a href="#HQC-TIMING-2019" class="cite xref">HQC-TIMING-2019</a>]</span>, <span>[<a href="#HQC-REJECT-2021" class="cite xref">HQC-REJECT-2021</a>]</span>, <span>[<a href="#HQC-DIV-2024" class="cite xref">HQC-DIV-2024</a>]</span>,
+<span>[<a href="#HQC-AVX2-2026" class="cite xref">HQC-AVX2-2026</a>]</span>) require many decapsulation queries against a fixed key,
+so a long-lived certificate key increases the opportunity to accumulate
+them; these attacks additionally require the deployment to expose a
+decapsulation oracle whose timing or micro-architectural behaviour is
+observable to the attacker. By contrast, the single-trace attacks
+(<span>[<a href="#HQC-TRACE-2025" class="cite xref">HQC-TRACE-2025</a>]</span>) can recover the key from a single decapsulation and
+are not mitigated by limiting key reuse. Implementations that decapsulate
+with a certificate-bound HQC private key <span class="bcp14">SHOULD</span> use side-channel-hardened
+implementations.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
+<p id="section-7.3-5">In a certificate ecosystem, a single static key is exposed to many
+ciphertexts from many parties (a multi-target setting). The FIPS 207-track
+HQC construction incorporates a per-ciphertext salt in its key derivation
+to strengthen multi-target and multi-ciphertext resistance; the exact
+construction is fixed by <span>[<a href="#FIPS207" class="cite xref">FIPS207</a>]</span>.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="kem-binding-properties">
+<section id="section-7.4">
+        <h3 id="name-kem-binding-properties">
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-kem-binding-properties" class="section-name selfRef">KEM Binding Properties</a>
+        </h3>
+<p id="section-7.4-1">Many protocols rely only on the IND-CCA security of a KEM. Some
+(implicitly) require further binding properties, formalized in <span>[<a href="#CDM23" class="cite xref">CDM23</a>]</span>.
+The private key format can influence these binding properties. Specifying
+a single seed-based private key format (see <a href="#priv-key" class="auto internal xref">Section 6</a>), rather than a
+caller-supplied expanded key, ensures that the decapsulation key is always
+derived by the key generation procedure and is consistent with the public
+key.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">HQC is an implicitly-rejecting KEM: it uses a secret rejection value in the
+Fujisaki-Okamoto transform so that decapsulating an invalid ciphertext
+returns a pseudorandom shared secret rather than an explicit error. The
+binding properties of implicitly-rejecting KEMs, and specifically their
+application to BIKE and HQC, are analyzed in <span>[<a href="#KSW24" class="cite xref">KSW24</a>]</span>. Implicitly-
+rejecting Fujisaki-Okamoto KEMs do not automatically satisfy the strongest
+binding notions; implementers and protocol designers who rely on binding
+properties beyond IND-CCA <span class="bcp14">SHOULD</span> consult that analysis. Where a protocol
+requires the shared secret to bind uniquely to a particular public key or
+ciphertext, that property is best established explicitly at the protocol
+layer (for example, by including the certificate or public key in the key
+derivation) rather than assumed of the KEM.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-8">
+      <h2 id="name-iana-considerations">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-8-1">For the ASN.1 Module in <a href="#asn1" class="auto internal xref">Appendix A</a>, IANA is requested to assign an
+object identifier (OID) for the module identifier (TBD) with a
+Description of "id-mod-x509-hqc-2026". The OID for the module
+should be allocated in the "SMI Security for PKIX Module Identifier"
+registry (1.3.6.1.5.5.7.0).<a href="#section-8-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-9">
+      <h2 id="name-references">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-9.1">
+        <h3 id="name-normative-references">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="CSOR">[CSOR]</dt>
+        <dd>
+<span class="refAuthor">NIST</span>, <span class="refTitle">"Computer Security Objects Register"</span>, <time datetime="2024-08-20" class="refDate">20 August 2024</time>, <span>&lt;<a href="https://csrc.nist.gov/projects/computer-security-objects-register/algorithm-registration">https://csrc.nist.gov/projects/computer-security-objects-register/algorithm-registration</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="FIPS207">[FIPS207]</dt>
+        <dd>
+<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Hamming Quasi-Cyclic Key-Encapsulation Mechanism (HQC-KEM)"</span>, <span class="seriesInfo">NIST FIPS 207</span>, <span>n.d.</span>, <span>&lt;<a href="https://csrc.nist.gov/pubs/fips/207">https://csrc.nist.gov/pubs/fips/207</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5280">[RFC5280]</dt>
+        <dd>
+<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5912">[RFC5912]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for the Public Key Infrastructure Using X.509 (PKIX)"</span>, <span class="seriesInfo">RFC 5912</span>, <span class="seriesInfo">DOI 10.17487/RFC5912</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5912">https://www.rfc-editor.org/rfc/rfc5912</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5958">[RFC5958]</dt>
+        <dd>
+<span class="refAuthor">Turner, S.</span>, <span class="refTitle">"Asymmetric Key Packages"</span>, <span class="seriesInfo">RFC 5958</span>, <span class="seriesInfo">DOI 10.17487/RFC5958</span>, <time datetime="2010-08" class="refDate">August 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5958">https://www.rfc-editor.org/rfc/rfc5958</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7468">[RFC7468]</dt>
+        <dd>
+<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">S. Leonard</span>, <span class="refTitle">"Textual Encodings of PKIX, PKCS, and CMS Structures"</span>, <span class="seriesInfo">RFC 7468</span>, <span class="seriesInfo">DOI 10.17487/RFC7468</span>, <time datetime="2015-04" class="refDate">April 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7468">https://www.rfc-editor.org/rfc/rfc7468</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9629">[RFC9629]</dt>
+        <dd>
+<span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Gray, J.</span>, and <span class="refAuthor">T. Okubo</span>, <span class="refTitle">"Using Key Encapsulation Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">RFC 9629</span>, <span class="seriesInfo">DOI 10.17487/RFC9629</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9629">https://www.rfc-editor.org/rfc/rfc9629</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X680">[X680]</dt>
+        <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation"</span>, <span class="seriesInfo">ITU-T Recommendation X.680</span>, <span class="seriesInfo">ISO/IEC 8824-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.680">https://www.itu.int/rec/T-REC-X.680</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X690">[X690]</dt>
+      <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)"</span>, <span class="seriesInfo">ITU-T Recommendation X.690</span>, <span class="seriesInfo">ISO/IEC 8825-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.690">https://www.itu.int/rec/T-REC-X.690</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-9.2">
+        <h3 id="name-informative-references">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="ABDGZ16">[ABDGZ16]</dt>
+        <dd>
+<span class="refAuthor">Aguilar Melchor, C.</span>, <span class="refAuthor">Blazy, O.</span>, <span class="refAuthor">Deneuville, J.-C.</span>, <span class="refAuthor">Gaborit, P.</span>, and <span class="refAuthor">G. Zémor</span>, <span class="refTitle">"Efficient Encryption from Random Quasi-Cyclic Codes"</span>, <time datetime="2016" class="refDate">2016</time>, <span>&lt;<a href="https://eprint.iacr.org/2016/1194">https://eprint.iacr.org/2016/1194</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CDM23">[CDM23]</dt>
+        <dd>
+<span class="refAuthor">Cremers, C.</span>, <span class="refAuthor">Dax, A.</span>, and <span class="refAuthor">N. Medinger</span>, <span class="refTitle">"Keeping Up with the KEMs: Stronger Security Notions for KEMs and automated analysis of KEM-based protocols"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://eprint.iacr.org/2023/1933">https://eprint.iacr.org/2023/1933</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="GJS16">[GJS16]</dt>
+        <dd>
+<span class="refAuthor">Guo, Q.</span>, <span class="refAuthor">Johansson, T.</span>, and <span class="refAuthor">P. Stankovski</span>, <span class="refTitle">"A Key Recovery Attack on MDPC with CCA Security Using Decoding Errors"</span>, <time datetime="2016" class="refDate">2016</time>, <span>&lt;<a href="https://eprint.iacr.org/2016/858">https://eprint.iacr.org/2016/858</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HQC">[HQC]</dt>
+        <dd>
+<span class="refAuthor">HQC Team</span>, <span class="refTitle">"HQC: Hamming Quasi-Cyclic"</span>, <time datetime="2025" class="refDate">2025</time>, <span>&lt;<a href="https://pqc-hqc.org/">https://pqc-hqc.org/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HQC-AVX2-2026">[HQC-AVX2-2026]</dt>
+        <dd>
+<span class="refAuthor">Dong, H.</span> and <span class="refAuthor">Q. Guo</span>, <span class="refTitle">"Breaking Optimized HQC: The First Cache-Timing Full Decryption Oracle Key-Recovery Attack in Post-Quantum Cryptography"</span>, <time datetime="2026" class="refDate">2026</time>, <span>&lt;<a href="https://eprint.iacr.org/2026/693">https://eprint.iacr.org/2026/693</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HQC-DIV-2024">[HQC-DIV-2024]</dt>
+        <dd>
+<span class="refAuthor">Schröder, R. L.</span>, <span class="refAuthor">Gast, S.</span>, and <span class="refAuthor">Q. Guo</span>, <span class="refTitle">"Divide and Surrender: Exploiting Variable Division Instruction Timing in HQC Key Recovery Attacks"</span>, <time datetime="2024" class="refDate">2024</time>, <span>&lt;<a href="https://eprint.iacr.org/2024/299">https://eprint.iacr.org/2024/299</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HQC-POWER-2022">[HQC-POWER-2022]</dt>
+        <dd>
+<span class="refAuthor">Schamberger, T.</span>, <span class="refAuthor">Holzbaur, L.</span>, <span class="refAuthor">Renner, J.</span>, <span class="refAuthor">Wachter-Zeh, A.</span>, and <span class="refAuthor">G. Sigl</span>, <span class="refTitle">"A Power Side-Channel Attack on the Reed-Muller Reed-Solomon Version of the HQC Cryptosystem"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://eprint.iacr.org/2022/724">https://eprint.iacr.org/2022/724</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HQC-REJECT-2021">[HQC-REJECT-2021]</dt>
+        <dd>
+<span class="refAuthor">Guo, Q.</span>, <span class="refAuthor">Hlauschek, C.</span>, <span class="refAuthor">Johansson, T.</span>, <span class="refAuthor">Lahr, N.</span>, <span class="refAuthor">Nilsson, A.</span>, and <span class="refAuthor">R. L. Schröder</span>, <span class="refTitle">"Don't Reject This: Key-Recovery Timing Attacks Due to Rejection-Sampling in HQC and BIKE"</span>, <time datetime="2021" class="refDate">2021</time>, <span>&lt;<a href="https://eprint.iacr.org/2021/1485">https://eprint.iacr.org/2021/1485</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HQC-TIMING-2019">[HQC-TIMING-2019]</dt>
+        <dd>
+<span class="refAuthor">Wafo-Tapa, G.</span>, <span class="refAuthor">Bettaieb, S.</span>, <span class="refAuthor">Bidoux, L.</span>, <span class="refAuthor">Gaborit, P.</span>, and <span class="refAuthor">E. Marcatel</span>, <span class="refTitle">"A Practicable Timing Attack Against HQC and its Countermeasure"</span>, <time datetime="2019" class="refDate">2019</time>, <span>&lt;<a href="https://eprint.iacr.org/2019/909">https://eprint.iacr.org/2019/909</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HQC-TRACE-2025">[HQC-TRACE-2025]</dt>
+        <dd>
+<span class="refAuthor">Dong, H.</span>, <span class="refAuthor">Guo, Q.</span>, and <span class="refAuthor">D. Nabokov</span>, <span class="refTitle">"Single-Trace Key Recovery Attacks on HQC Using Valid and Invalid Ciphertexts"</span>, <time datetime="2025" class="refDate">2025</time>, <span>&lt;<a href="https://eprint.iacr.org/2025/1987">https://eprint.iacr.org/2025/1987</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-lamps-kyber-certificates">[I-D.ietf-lamps-kyber-certificates]</dt>
+        <dd>
+<span class="refAuthor">Turner, S.</span>, <span class="refAuthor">Kampanakis, P.</span>, <span class="refAuthor">Massimo, J.</span>, and <span class="refAuthor">B. Westerbaan</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-kyber-certificates-11</span>, <time datetime="2025-07-22" class="refDate">22 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-kyber-certificates-11">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-kyber-certificates-11</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="ISD-HQC-2026">[ISD-HQC-2026]</dt>
+        <dd>
+<span class="refAuthor">Carrier, K.</span>, <span class="refAuthor">Hatey, V.</span>, <span class="refAuthor">Luzzi, L.</span>, and <span class="refAuthor">J.-P. Tillich</span>, <span class="refTitle">"Multilevel Amortized Gaussian Elimination in Information-Set Decoding: Applications to HQC and PCG"</span>, <time datetime="2026" class="refDate">2026</time>, <span>&lt;<a href="https://eprint.iacr.org/2026/1498">https://eprint.iacr.org/2026/1498</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="KSW24">[KSW24]</dt>
+        <dd>
+<span class="refAuthor">Krämer, J.</span>, <span class="refAuthor">Struck, P.</span>, and <span class="refAuthor">M. Weishäupl</span>, <span class="refTitle">"Binding Security of Implicitly-Rejecting KEMs and Application to BIKE and HQC"</span>, <time datetime="2024" class="refDate">2024</time>, <span>&lt;<a href="https://eprint.iacr.org/2024/1233">https://eprint.iacr.org/2024/1233</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="NIST-PQC">[NIST-PQC]</dt>
+        <dd>
+<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Post-Quantum Cryptography Project"</span>, <time datetime="2016-12-20" class="refDate">20 December 2016</time>, <span>&lt;<a href="https://csrc.nist.gov/projects/post-quantum-cryptography">https://csrc.nist.gov/projects/post-quantum-cryptography</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SDE21">[SDE21]</dt>
+        <dd>
+<span class="refAuthor">Esser, A.</span> and <span class="refAuthor">E. Bellini</span>, <span class="refTitle">"Syndrome Decoding Estimator"</span>, <time datetime="2021" class="refDate">2021</time>, <span>&lt;<a href="https://eprint.iacr.org/2021/1243">https://eprint.iacr.org/2021/1243</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SENDRIER11">[SENDRIER11]</dt>
+      <dd>
+<span class="refAuthor">Sendrier, N.</span>, <span class="refTitle">"Decoding One Out of Many"</span>, <time datetime="2011" class="refDate">2011</time>, <span>&lt;<a href="https://eprint.iacr.org/2011/367">https://eprint.iacr.org/2011/367</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="asn1">
+<section id="appendix-A">
+      <h2 id="name-asn1-module">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
+      </h2>
+<p id="appendix-A-1">This appendix includes the ASN.1 module <span>[<a href="#X680" class="cite xref">X680</a>]</span> for HQC. Note that
+as per <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, certificates use the Distinguished Encoding Rules; see
+<span>[<a href="#X690" class="cite xref">X690</a>]</span>. This module imports objects from <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span> and <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<div class="breakable sourcecode" id="appendix-A-2">
+<pre>&lt;CODE BEGINS&gt;
+X509-HQC-2026
+{ iso(1) identified-organization(3) dod(6)
+  internet(1) security(5) mechanisms(5) pkix(7) id-mod(0)
+  id-mod-x509-hqc-2026(TBD) }
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+
+ PUBLIC-KEY
+   FROM AlgorithmInformation-2009  -- [RFC 5912]
+     { iso(1) identified-organization(3) dod(6) internet(1)
+       security(5) mechanisms(5) pkix(7) id-mod(0)
+       id-mod-algorithmInformation-02(58) }
+
+ KEM-ALGORITHM
+   FROM KEMAlgorithmInformation-2023  -- [RFC 9629]
+     { iso(1) identified-organization(3) dod(6) internet(1)
+       security(5) mechanisms(5) pkix(7) id-mod(0)
+       id-mod-kemAlgorithmInformation-2023(109) };
+
+--
+-- HQC Identifiers
+--
+-- NOTE: The object identifiers below are PLACEHOLDERS.  NIST is
+-- expected to assign HQC object identifiers under the Computer
+-- Security Objects Register (CSOR) once FIPS 207 is published.  The
+-- arc shown mirrors the ML-KEM assignment (nistAlgorithms.4 "kems")
+-- and MUST be replaced with the values assigned by NIST.
+--
+
+nistAlgorithms OBJECT IDENTIFIER ::= { joint-iso-ccitt(2)
+  country(16) us(840) organization(1) gov(101) csor(3)
+  nistAlgorithm(4) }
+
+kems OBJECT IDENTIFIER ::= { nistAlgorithms 4 }
+
+id-alg-hqc-kem-128 OBJECT IDENTIFIER ::= { kems TBD1 }
+
+id-alg-hqc-kem-192 OBJECT IDENTIFIER ::= { kems TBD2 }
+
+id-alg-hqc-kem-256 OBJECT IDENTIFIER ::= { kems TBD3 }
+
+--
+-- Public Key Algorithms
+--
+
+PublicKeys PUBLIC-KEY ::= {
+  -- This expands PublicKeys from [RFC 5912]
+  pk-hqc-kem-128 |
+  pk-hqc-kem-192 |
+  pk-hqc-kem-256,
+  ...
+  }
+
+--
+-- HQC Public Keys
+--
+-- NOTE: The public key sizes below are provisional and follow the
+-- HQC parameters under consideration for FIPS 207.  They MUST be
+-- confirmed against the published FIPS 207 standard.
+--
+
+pk-hqc-kem-128 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-kem-128
+  -- KEY no ASN.1 wrapping; 2241 octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { keyEncipherment }
+  PRIVATE-KEY HQC-KEM-128-PrivateKey
+  }
+
+HQC-KEM-128-PrivateKey ::= CHOICE {
+  seed [0] OCTET STRING (SIZE (32))
+  }
+
+pk-hqc-kem-192 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-kem-192
+  -- KEY no ASN.1 wrapping; 4514 octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { keyEncipherment }
+  PRIVATE-KEY HQC-KEM-192-PrivateKey
+  }
+
+HQC-KEM-192-PrivateKey ::= CHOICE {
+  seed [0] OCTET STRING (SIZE (32))
+  }
+
+pk-hqc-kem-256 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-kem-256
+  -- KEY no ASN.1 wrapping; 7237 octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { keyEncipherment }
+  PRIVATE-KEY HQC-KEM-256-PrivateKey
+  }
+
+HQC-KEM-256-PrivateKey ::= CHOICE {
+  seed [0] OCTET STRING (SIZE (32))
+  }
+
+HQC-KEM-128-PublicKey ::= OCTET STRING (SIZE (2241))
+
+HQC-KEM-192-PublicKey ::= OCTET STRING (SIZE (4514))
+
+HQC-KEM-256-PublicKey ::= OCTET STRING (SIZE (7237))
+
+END
+
+&lt;CODE ENDS&gt;</pre><a href="#appendix-A-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="params">
+<section id="appendix-B">
+      <h2 id="name-parameter-set-security-and-">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-parameter-set-security-and-" class="section-name selfRef">Parameter Set Security and Sizes</a>
+      </h2>
+<p id="appendix-B-1">NIST has defined security levels by picking a reference scheme that
+NIST expects to offer notable levels of resistance to both quantum and
+classical attack. A KEM algorithm that achieves NIST PQC security must
+require computational resources to break IND-CCA security comparable or
+greater than that required for key search on AES-128, AES-192, and AES-256
+for Levels 1, 3, and 5, respectively.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">The sizes in the table below are provisional and <span class="bcp14">MUST</span> be confirmed against
+the published FIPS 207 standard.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+<span id="name-mapping-between-nist-securi"></span><div id="tab-strengths">
+<table class="center" id="table-1">
+        <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-mapping-between-nist-securi" class="selfRef">Mapping between NIST Security Level, HQC parameter set, and provisional sizes in bytes</a>
+        </caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Level</th>
+            <th class="text-left" rowspan="1" colspan="1">Parameter Set</th>
+            <th class="text-left" rowspan="1" colspan="1">Public Key</th>
+            <th class="text-left" rowspan="1" colspan="1">Ciphertext</th>
+            <th class="text-left" rowspan="1" colspan="1">Shared Secret</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">1</td>
+            <td class="text-left" rowspan="1" colspan="1">HQC-KEM-128</td>
+            <td class="text-left" rowspan="1" colspan="1">2241</td>
+            <td class="text-left" rowspan="1" colspan="1">4433</td>
+            <td class="text-left" rowspan="1" colspan="1">32</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">3</td>
+            <td class="text-left" rowspan="1" colspan="1">HQC-KEM-192</td>
+            <td class="text-left" rowspan="1" colspan="1">4514</td>
+            <td class="text-left" rowspan="1" colspan="1">8978</td>
+            <td class="text-left" rowspan="1" colspan="1">32</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">5</td>
+            <td class="text-left" rowspan="1" colspan="1">HQC-KEM-256</td>
+            <td class="text-left" rowspan="1" colspan="1">7237</td>
+            <td class="text-left" rowspan="1" colspan="1">14421</td>
+            <td class="text-left" rowspan="1" colspan="1">32</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+</section>
+</div>
+<div id="examples">
+<section id="appendix-C">
+      <h2 id="name-examples">
+<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+      </h2>
+<p id="appendix-C-1">This appendix contains examples of HQC-KEM public keys and private keys.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<aside id="appendix-C-2">
+        <p id="appendix-C-2.1">RFC EDITOR: The algorithm identifiers in these examples use placeholder
+  object identifiers under the NIST "kems" arc pending assignment by NIST/CSOR
+  once FIPS 207 is published; the examples will be regenerated with the
+  assigned values. The key sizes shown are those produced by a reference
+  implementation of the HQC specification and are provisional until confirmed
+  against the published FIPS 207 standard.<a href="#appendix-C-2.1" class="pilcrow">¶</a></p>
+</aside>
+<div id="example-private">
+<section id="appendix-C.1">
+        <h3 id="name-example-private-keys">
+<a href="#appendix-C.1" class="section-number selfRef">C.1. </a><a href="#name-example-private-keys" class="section-name selfRef">Example Private Keys</a>
+        </h3>
+<p id="appendix-C.1-1">The following examples show HQC-KEM private keys for each security level,
+all derived from the same seed <code>000102...1e1f</code>. HQC uses the seed as the only
+private-key representation (using a context-specific <code>[0]</code> primitive tag with
+an implicit encoding of <code>OCTET STRING</code>).<a href="#appendix-C.1-1" class="pilcrow">¶</a></p>
+<div id="hqc-kem-128-private-key">
+<section id="appendix-C.1.1">
+          <h4 id="name-hqc-kem-128-private-key">
+<a href="#appendix-C.1.1" class="section-number selfRef">C.1.1. </a><a href="#name-hqc-kem-128-private-key" class="section-name selfRef">HQC-KEM-128 Private Key</a>
+          </h4>
+<p id="appendix-C.1.1-1">Each of the examples includes the textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> followed by
+the so-called "pretty print"; the private keys are the same.<a href="#appendix-C.1.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C.1.1-2">
+<pre>
+-----BEGIN PRIVATE KEY-----
+MDQCAQAwCwYJYIZIAWUDBAQBBCKAIAABAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZ
+GhscHR4f
+-----END PRIVATE KEY-----
+</pre><a href="#appendix-C.1.1-2" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="appendix-C.1.1-3">
+<pre>
+SEQUENCE {
+  INTEGER { 0 }
+  SEQUENCE {
+    OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.4.1 }
+  }
+  OCTET_STRING {
+    [0 PRIMITIVE] { `000102030405060708090a0b0c0d0e0f10111213141
+5161718191a1b1c1d1e1f` }
+  }
+}
+</pre><a href="#appendix-C.1.1-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="hqc-kem-192-private-key">
+<section id="appendix-C.1.2">
+          <h4 id="name-hqc-kem-192-private-key">
+<a href="#appendix-C.1.2" class="section-number selfRef">C.1.2. </a><a href="#name-hqc-kem-192-private-key" class="section-name selfRef">HQC-KEM-192 Private Key</a>
+          </h4>
+<p id="appendix-C.1.2-1">Each of the examples includes the textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> followed by
+the so-called "pretty print"; the private keys are the same.<a href="#appendix-C.1.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C.1.2-2">
+<pre>
+-----BEGIN PRIVATE KEY-----
+MDQCAQAwCwYJYIZIAWUDBAQCBCKAIAABAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZ
+GhscHR4f
+-----END PRIVATE KEY-----
+</pre><a href="#appendix-C.1.2-2" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="appendix-C.1.2-3">
+<pre>
+SEQUENCE {
+  INTEGER { 0 }
+  SEQUENCE {
+    OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.4.2 }
+  }
+  OCTET_STRING {
+    [0 PRIMITIVE] { `000102030405060708090a0b0c0d0e0f10111213141
+5161718191a1b1c1d1e1f` }
+  }
+}
+</pre><a href="#appendix-C.1.2-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="hqc-kem-256-private-key">
+<section id="appendix-C.1.3">
+          <h4 id="name-hqc-kem-256-private-key">
+<a href="#appendix-C.1.3" class="section-number selfRef">C.1.3. </a><a href="#name-hqc-kem-256-private-key" class="section-name selfRef">HQC-KEM-256 Private Key</a>
+          </h4>
+<p id="appendix-C.1.3-1">Each of the examples includes the textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> followed by
+the so-called "pretty print"; the private keys are the same.<a href="#appendix-C.1.3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C.1.3-2">
+<pre>
+-----BEGIN PRIVATE KEY-----
+MDQCAQAwCwYJYIZIAWUDBAQDBCKAIAABAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZ
+GhscHR4f
+-----END PRIVATE KEY-----
+</pre><a href="#appendix-C.1.3-2" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="appendix-C.1.3-3">
+<pre>
+SEQUENCE {
+  INTEGER { 0 }
+  SEQUENCE {
+    OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.4.3 }
+  }
+  OCTET_STRING {
+    [0 PRIMITIVE] { `000102030405060708090a0b0c0d0e0f10111213141
+5161718191a1b1c1d1e1f` }
+  }
+}
+</pre><a href="#appendix-C.1.3-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="example-public">
+<section id="appendix-C.2">
+        <h3 id="name-example-public-keys">
+<a href="#appendix-C.2" class="section-number selfRef">C.2. </a><a href="#name-example-public-keys" class="section-name selfRef">Example Public Keys</a>
+        </h3>
+<p id="appendix-C.2-1">The following is the HQC-KEM-128 public key corresponding to the private
+key in the previous section. The textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> is
+followed by the so-called "pretty print"; the public keys are the same.<a href="#appendix-C.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C.2-2">
+<pre>
+-----BEGIN PUBLIC KEY-----
+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
+qaJFSqMcFg==
+-----END PUBLIC KEY-----
+</pre><a href="#appendix-C.2-2" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="appendix-C.2-3">
+<pre>
+SEQUENCE {
+  SEQUENCE {
+    OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.4.1 }
+  }
+  BIT_STRING { `00` `440a05e59419e3cdf7f8009c5380efe48724e0a4da4
+0672cb625a8854391e51fad4a9aec1102cc85ff0e1d6e9ce5c47dfad4ea9b139
+c26aff6ec853bed92fd593f26685dfca2400c39bfaa889a3e5f916e77f914e69
+5db6e8f2cf32fc51ae96b6493853a3cc46161748cea85c62ae0ef625c5580d74
+161232e7faa4c8aea3de0799738eea38e5d560cb39f5f4f6caf1e2cd4c308409
+5c94dec7d3c44afd9dcd2c2b27b69df7f678dfd092cd7dd8d144efa39dedb56d
+da1355d7aed0ef0dd4528a0b42315e7137dc403f3a1a6c6a41fd17820d53aa3c
+04e7a33ed41256966aac22e9473fdb598fdf8a5c30a4b1cd59c1b66ba94d4929
+63c5c952a6ee0514256b9415fa1e2af0f3ab04e9589905814343df67062db428
+eb10f8b98e7cf749ea0b277d1f4d1af138bb0ed1fd09e868ddd2bd61e583a140
+1a011f470b134fe71452bd3fd6e99890b80857d727e7b6beac4914230db4317d
+9cb15a6dbcaafa439549da8e15910448a2485525905e497124c04da16712008c
+0692f23d2d281008c9db5bb70800e7ee35e1c686cdaa9108f4d77bdde88d39cc
+d82dfcf16c9d71cb29499e493bc07ff62a11fa7f57d3a815bde557d77988ae50
+2f13241fbe9741d5cec96f64c7d8b0d9b78783d76cc0bed14be1418f85fb3dad
+88fc27c7c6698d1b99a1be7d45f70b5334f91977736a18864561b6a4dabed370
+3c2f8bf76ef52a2c67b1cf6ea52f4e1ed0fc2026ed5e07b491ba4f91c0da42eb
+2d53bfd2956f9a7f21f9b2e1c2baa475a541823aff138c7f6c501aa0b44cff63
+1b484481bea067292bb031efa856280279ec81ecb2a7feafd42bf8e302b9a318
+b3941e4f4480ac52d30ba4b296ab4478446bac0cb190ab6356a3c9f0e5800d79
+97e8a1ccb705fbf045ef61eb85944f313b1a9415bdaae91ca38cb853c3043a17
+c73c9e8b2f8fa731c63976521710627aa594c6fac251698dfe600b1b85322f32
+fc6e1e91f95f49f42c4533662e4bd1039b9464a14f7512b7691f1d43228685df
+a80b3d9390ea504b2ea039e9a8efa7bea0afc3a6b015d560ece7daadd652e490
+c9953570a93807af770e93b4aaeefc2dc7f180fa558ec0d752dcdf702750b458
+7bdbf8728c98570f2f48504bfab8c96909b32b33140eb7e792f43c80cc20e69e
+6e9939a6a639c35e0fc8ef8d3cfbab9534469447877d5d2e58b05c986139fa38
+7ee2ea0e1a9982dd78644cf23ac5586fa829cfbbc7488afa980617a4df5c91df
+24355dce064d91ff39fbb152da4e5708c73a9b960f9977afe7d5c746d98ae972
+76b873d1f8ae65b72d58e306018a0cde9d3fd55a662c3ebf22ebdc147aee5866
+789eb9f448b8e0c881a12983d010a17e8f68453380569d3c961103acb7ce6d29
+8dff93c2e6e7122470a875d7b5a0986893d12a227812ef8f0a24d6552cdc6f54
+0e7155e573e32288d7ba24f63d8e4b0aabc3eace3ee24c408df40779d5c3bfbb
+d80247187716a0a1aa30549b21ed252633bd6172de4fb1c373d188b53c04ef3f
+6aaa8d80bd6fe3f12097975d9584e52a25b1b10f6baf7541c3f948171b5cd710
+5cd9e5d6f28d89388d0bb57fa8de64d60df191072dc87642b7ce98778f09af6a
+7e8a8db953fb5644b49b6afc8689037f9760e12fd221e734a324ab1c3e07cf5e
+11d88ead3fc8e98e4deef8446a930e1431259a6158ff3da864dfe7f01af1504d
+9aa1090ae3e1e09928221c575003e739e0cc3048e3539c3fd1791cef3db4f74a
+c137b9bec69878249cfb2aea2e3e28fff1b91661f3a692f804d3f3b7a96b92b6
+879ba1ba3addfd53b502be1538f85be5edcf736d4323df59512529e519c15846
+831316f09f2f7b5f6208cd70cbdeee5e18970f1a76e818077986ce59125af15a
+141c76e92ab598b26708dd7177f0acb122db0c8fceae8d8252d6acfb6bb1e925
+b321d2355b830d683a2ae8114968ec395b9521fc913f9f082a7bee272e421233
+0e0da8f92e3baf53c6352e9832336875d60c60dc59ad7216f463da75632bc922
+aa44ba08f91c74878d124dfeae8b780b032de7e7d7b56d47359f8f9ede7d4ecc
+e21593f2cf1eb6bd481c9c0aa561c6dace3456cfe8f0adaf340e823a305f6a45
+f9e353051a6e3c9ebbed02160e9095878069ec9f292ef957d3962e6cd5768d25
+1f90b567126853c26fb0113f8fb90c933ba9f096f251f01a20f02be764f08c4d
+f50e32cca5ea3e98d0db978b6ac3c8cb8ecd4610670be0918dc077af421787b2
+55da0bd123de3af215a1da710f594fb0ebc8f708c453f22294f8e7f79acc2f8c
+e2b0d0b2876022508e55f3cf13f091c5b0abf511d957357499ad42f96a0678f5
+3feb3fbd3e361a6f13e40bcee625dc2c54f2a047179394706adc7118544a23f5
+a2c6f957eeedd244fc6075fafb7b4b387007ec76296f2f5e506e9fe0c29b38f9
+ef96e1bbd9784d6019bae48903aec60fc3c9efbda861be18843c24d5446a0981
+4790eda076048a2f26b84edf90458e3d035b9864127f9a8404d5b915140ab521
+9f1e00f19b0f3358ec72270eaabb110b68dd36babfe0175bdd41bb5ebe0d202a
+0dc381f6efa3cc18bed10be1ac1ac40d5b52bb8e39e4d6627a6f47d7994f0130
+90a5a2f7534d1feba778e06b6f1d32de69d2bbdbbc15f5422b9ea1ce9eacfcb6
+450a4c2c488672d92f760dc435d3c3852ecaf79633a8c95af9c7306eac8b823c
+67d4c6e5941043d91ed194f8c1c5d9280c56b9dde842c5dd409e907c87b36111
+856ab121f433f4b2bb4ea1e070fff790d96f4e1c76a93a3b5d3f30af4ffb1417
+36efbbed45822c25a08389a323af83dff8411749eae924ecedb727383f5d89a1
+1663e799ef9bdd1fdfc637c5356b8c81ee925ec11a25838c9ad77ddbd55e727a
+b38c6aa2978da9df426eb58d33ccead5dd87b4b42680af518f64cc6272503a86
+fb14a5a835215eed2d3fefaa1c38b804a3d8e684b6ef885c4d60bc986ce0b0e7
+1877168d06377b5d36055628b492f3474013d722ed6f75134e23066bd1f05ad3
+bfa37d73eea2c23a846446f342e3700a6bd847525733d25a181f215758a4904c
+4c1c981f316ed7fc9fe484d659d2d290f2b5c309e42d8ba85aa59338dc4fd402
+1c07f34e58af2c437d3b3dddf36d18737d9487c737ce1ae544ddf3aa2c13a3b0
+a45551aafa9a2454aa31c16` }
+}
+</pre><a href="#appendix-C.2-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-C.2-4">The following is the HQC-KEM-192 public key corresponding to the private
+key in the previous section. The textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> is
+followed by the so-called "pretty print"; the public keys are the same.<a href="#appendix-C.2-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C.2-5">
+<pre>
+-----BEGIN PUBLIC KEY-----
+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
+6cEPK5lPBd13nk7pn91RMlsBNKo8BdUC
+-----END PUBLIC KEY-----
+</pre><a href="#appendix-C.2-5" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="appendix-C.2-6">
+<pre>
+SEQUENCE {
+  SEQUENCE {
+    OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.4.2 }
+  }
+  BIT_STRING { `00` `440a05e59419e3cdf7f8009c5380efe48724e0a4da4
+0672cb625a8854391e51f735961590724169d4ddeb53471807aa4c2029330cc1
+7ea4b043debd5c5f0ace1ec21ceaf82d19171b8c921a6da6e606ade9c2504e51
+7c8bf714c6a41c4a931275201f596e880d450fa0a2c2e599215e61a5097765e6
+e4ba985e2e44def63425c8c1511e81f71953c697747f8e562e87027ecab5ca44
+0255d6c8cd4df74135356f17835f6369697fb20baf152f39815b47f800518a3b
+8489b8bbf11bbfdfd5416eb7c5b6007bba72afdc9353c7434fbcef10dbabac2d
+3df59060e413d6f67f8a7036aaf08da6edfc9353ca504e2b1728d5cebeadb27c
+1c91be981d3b9174c8388205404668e5aef5282083cd542c372380fd170fc775
+ffd4801993398c8034fd3087020758f9a65547c4eaf7fe617840484cb926aa7d
+fcdf9c4492aac0af85865ccab9c4234efb389198bb9db04d76758756c40b7f85
+10ef06ec4abe4284dd65629e4defa2fdc8c71556bc83558a4e9470be5808f651
+8c53a4f10cc6d2e9d40a694608cfc96e5d5662303207d14fa923cd47a0162773
+72623855fe6f1e74e1c07eb6b3dfa72eb41a18448dd431b22a32ea91c5e29a2e
+7cf185b4fbc186c25b6d5c4e485ea59e602f6a250e83d2e12ae5439f3a09f80d
+6895b4616d51fb958b1dc1d702bed8930d762a22c69da15e498e0645c6a4c80c
+75dccd02126dab23549b965c2f9908a37c562dad579b04ec1b9c3779dca02e1d
+bb4a13e45745923d046e2bbfe1408ca987ef7b7dae4056b477d89e39a7b51030
+3666fde9e93fab8055109ab8528485f29c7bd189a9b0e94a348eea63c5a14446
+61bc0625b81dd256ad99dd9e185f15ad67f472e4742dd8a225cfa271572a7441
+cfc378bdf0ff12b0399896aecd558133e262f4e7f7e65ae64d3e9c56f7e3c602
+92ce677fc4de41a5bd935d3948d5da21da10bbce2ae10b087d6dc6a7a809724d
+8525ecbec1b8d2d3f5f4df912c5c2e064c08784731c141224cad45d7839b4a9e
+016669c26b43268bda3c8b475fe5e874100e62f5a13d1e26d61c6799c082eae7
+cb9e885c919ae3a55495df7f8b61a4e6da075b2622cce4a9854b648d34fa9775
+e272201aac210752de5749ed4b06f244a791efe8f561568c9b7903d64b81208d
+225f606a7eb347ce15272173a36caa119731ce7f6e927f1b47c11a0a37b7ab6b
+f999025aeb892ad474f8b7ca17277ac9452802d92503dadfd7ff15478d12bd80
+3897d478d64fd2d9259b460c2bf314ebaf080f4f1173a4e86fdfc15b92506c87
+9ecad051bd1a65a3990616b52155c9b7d37d2118ba6513c1d65f30cde053a2df
+7835b217a645fd46fb2f42955cee32e4dc86efa1653de92fca884a4394ec1783
+9d067df9e317c98c57fc06a5e5a5d2f68acf6d68010d25ba900d7f388b567e6f
+cd0d6ca9adc271da54f37883abf91d72aed0da6f5b066ebb8a6fba283819f568
+794fd9ac18fe18c2b3b10736ac74e8f862e26309c401876f07fd6b154bb09ae3
+7c3dc0bf79b2ffaf90d7c39ec0d9615692d7dad541f83bd3ea54721d8aee6f47
+f95df56d93d5ab359e2c93ab315cd3594fbde2cbde60eeef1b945d6be6342ad7
+c02b07547535bbc20348d3ff211b0ff976170ea895680c45535d9c3960b48186
+c825293e7c5da1b61e06c592d6ffdd8a0cdcf664d3178989d7ed82eb98493806
+b4dfa1543c94b0a631107c436d6b83ec79ed386836d257a7b755fe1b00aaa9c6
+bee4a06bdb469172198335f6dfba269bbeac50c86419b3874e5da082e6c22f4c
+018df965988e0e74e6c33e75c5a1a6a2cc6e0a35b9ba22a3d3634ff0012ac9ea
+505818ca4d7bfaa7425adf8facc5230d863598e79ace92fd9170325c0d69716f
+0937f57853a9248fa589ec27324a646872a23ec58bfb085855980f99b78a5ecd
+d15c547a8026823198ddbe47f9e06e145614645dd0c85bf859286bec277a481a
+f84ad1c004ec9e543d6ce99a71089009c0bcd04ea83f6806f4e6b1efdfbe3a34
+70a5c0e14d07c3740b30d1e15ff15e6a5a136ed3e8185a5a74b6e670aa286e99
+372ad000f8d598a55987908692b505f81e757c6add34197024cd12a0fcdf53b9
+79ebb23d6ed92920274542ddb4f73c8cc0a633921ed4b1ab448e5c636882f50d
+1ffe02f68f517f33ac7594411ad242d5950b6f9124de492df02eb42f14b671c3
+4ab6fe40f1ee36e1da1c5496c25d8f76c5bff9c92856ba48d1f6ec25b1892de0
+c5ca9070d4b8de926c05d69e406d666e7d10c4ac126c722ee7288b8bb3ed4e97
+fdecba7768c8325c6d256da7fe044bc380d7c87631162fd17dbe9276e2c5b743
+bc3ff319a3edb7f16fe7a695c30aea4d52623476eb950d3cb296f701e2785f05
+09a9fdd5b1ab62913889cfec252861c36f5e573d561de3fe8022ca618b1c924d
+c420306891aa9ced0455fbe3b4b4b9c425deb04fea0dcd57086cd48ab364944d
+3831bf93012349f4622ef69dca79589369ba3b4f2e1367d237eb6cf9ed2d15e7
+c287dc9fbe2da19d9f9b3cb01a0f3140980da7dd759f4080db35311fffd288b3
+8d83694b8be1121db7729ee7e01aad2a03b1491bed6674043cc76ced09ffb746
+c58c4d0c0ab435c1a587b3faa7edf0df7842090a640d1931991d233212591510
+6c91154ba322f1deedb2636706b32c7b3b0bbec9c8338e4e0702073f51d091fd
+159a711e231570878790f56c57b4f753f13f72f0db0706af16d9047398684b00
+32e19bd5b95161e32c8de259f0a1cbe7e791b3eba4350909a7bc7457e499e349
+4ecce3208f05fa6d01f381802cc6fb59ad6c90f6735656278a2e0818d745a108
+54efd3c7d434a715f91e18e58633f4699904a9b698fb6dec77724dfe4fffbcbf
+9a19f9e8dcb2529c6b5bdae81362e7796c033838ece86ac55dc34bbdaec642e2
+ccb5876bc810925c03d0d857ac7288c6dd12cee4154ca94a6ed64ae6e1d6c323
+b5a8757204789e7ce69049a0387c939c3cb883a3b90e81832ed3deb42fa740ed
+6f05f5c6f0c24d25ca2021fe86279493b57faf31d0cc1c0d534cb39c7ba08698
+c0b50c6ff1be45d78b6262edf50679d1062a2b5c96a36efa1b166c62f13be831
+d8387f2261beb390fc8b88b49e6e5a568e0d70b3876c81d1986ff79f9311927f
+4d0b4760887d6f0d222b627c99bb65990f05af20c44808286c9411555ee2e8bc
+5ed07d73d9222981dd2cfc9e434ea365968a5dece413a5d0ca2cbd39f87b3a64
+c7411be0703bf983cc1cd803ce4f3948d2e6c693e0a0d071289f608a1bb252da
+104bd2a10e28ada35cf26b24e1ccf7855842bbfffa6e5a7b5893e102236fb6dc
+f4df68a34304b1cd60f5ec295409a5e44e9083ece3dc4e9fe3c09dfb09b77082
+041d68ac9f99c943d8a7a592ce69dcc2fbbc4f5441bf3172be8ea1bcb5c52b49
+55e16179ba3f0adfd8f28f28c58914c958f8e5d6a2522ed55739734e3210eb92
+9aa53f8c42a99c9a04fc067f10cf0c1f630614e08fa14c0ad3591b3fc2fec601
+28f65432fb7d664757d57655d9a1b650ec958e48426295de71eaf86a1392ca02
+93e5c59dff1e86748619fa7a65b610bcd0660416ba94abf457d008cf935fd2f2
+05f20954d0ba35e5678947e54ae9ecab49c333c0bd7eaaf1d35cf3a7e265d74b
+d93655dfbfaf74be69bd7de02b0d630b1e1ece08b718f944d64ab7c2655247ae
+611f0d6f74f8cd4063a69c93b525bcf0712d03bda54262d74d0423488f3f1267
+df8b449901074493e6d0d3f51c5400eedefd2b4cb33f3c6f180edbf7baa531f7
+54a2ccc1f38dc81a66ff09ca3416f38501e7324a0d1dd233044e4a0123241508
+f44a1ec7f79aec2d98cb179733bfada1d1d1f1cf72f5863a0d536ee5ea5dcae9
+97a32146bc8b67390507167c873421fcebccd09fa94ff9b163898c49b49c60d7
+f4215466a9b7b571c410e42ae57877b3cd661a0b8ecb4e8b11ff54f5d48c2c12
+7600a050730923a05552fb4f455a6cbbc480c0de757692b247a2e4b05becab15
+306e56ae1b95bc3b071bbd1e9e5cc196e0edcc2a7a79af912fa24d4daecacea9
+f6bb32d89d510b3df8da40554f792370b5a9b08284f2ccab602ae2490246fec6
+d0fa684039bc199837e0684d84aca318eb13b1a1e59ab99bb41de50e86c5073f
+27b035ed65476644d3acfe9a7bbbc407ddd83c39577e6cf09b00726033a0516f
+54cab60cda1834217bda94d415bc5fe2d3f074479fa8b11e138f73cb8ba298a6
+15d970b084072ab46a0a6c683dad58ec67e2c5f1140fb297211a7249fd1772f2
+be1e94d2495f38137ab6c78ad010919c2e8ea49b85157b4608af16b50dd44045
+18476930dd8a106476ee5721c19e4f8e41a15b8f9d92d3ec1261d00601f5432d
+2aeb3f16cc3e31b973e42786cc840239da2df1990d4f9ab917b573b8f6ac1af7
+943d341cee304d4ae598fe9e21f48a160b99e3bfa2b9e73b9911b65e0b9b0121
+503596f27161f77ed7ced0a706bb93e1deaefd4b063e7e8f3d5c068725677ff7
+45a4002b3c5312e24645fb241d3ff6115a18f074520394d87e35253ed59fe81a
+2aa32ad117e0b14953429a8faf03769f72b2114a068f99167adf7ac1105a9325
+8e3a274219fa3faa7f1146e43900a364281c6009bb13d2d0cc8a7309bc4cb5a0
+fb6d2462abb89b6dc84f9c1f5a5f17d0831819a319f50415f9d22898c12fc837
+92cdc3ca83387723e10e56cb0724a7ab6d4090983684646d900d7a79aee4d9c2
+30685634bdfc404856e821c5dec3e1dcd4c54935e4269dfa5048ff0b8e3421d4
+231df105b550ff2a0965d16a21ba00742e9cacf371dba29d6a0763839e94a2b0
+f1c817101ed6734ad0d475bf5e21bee0878ffe2fc21d94e882e1c7d098776041
+44c24517b83a6650018a002a3b41e65d9142d786cb672cf9b571d6c5f088bbfd
+0a0c6116d10e9610fcd762b5f043e7d5b317ce4c33af5c2d24ae6a5b6d732c45
+1e27543c724e06caf2a1335e83c3f351ca5a05fdc0d14bd69fe9423fa8b6e216
+d6677ff5c688406c1da1b67ae0763a51631918424f0079ec0d9207a7c654edc0
+2fb28199bf74dd2c66a301ad86b52c1e814f9aeef3108fa78737ad96388f09bd
+21a418b21d09d0c6fc6f49cb0844fb22c9b19fa7b96eef2056ccc404cedf7f56
+57bdcc13f63e96dd8d2cc8f4ab68c51d04899cea73e622bc0f5968a4e8662d6d
+e6b921587457069aec398d44c1da06763dfa826055d9410196b5945c640bab03
+2ef402eca4b4b67b311486c459c03405d2ef5a6fab8b779c11dda0abf2436d01
+b6d83367e57ce229aa2389b1a42eefd62ec539ca3038d078766f75c1ecded594
+54461fce86ce3524793bcb85a629ab362f19a222dde5722dc3d2cb5811f78719
+973f1d9a3406413dea6a1b6e82cc70cf44d615cee38bf9bdddc22c1bc9aeca5e
+e4068997a30b45a73cfc51366e3abf30e6b2d23bba457896cd6e98979204d74b
+3692b5fc09f7d5379321dde4ff8e1581f3de560776343e06432ff132fa62354f
+f11a096acfc4de0f7a5d0012daf6e9e3b77398c9d8a9ae396c2cce66bbd85726
+c7c4e629136f17355b02d7c2a8f38f3df7d696428742d95b0d0181d19c231b5d
+b1e8e66618f83383556edaeb9ca19d14211dfef64364f0c60d863f49ac53d8d8
+7e2586aebc613fedc257a6e98d32bae1b00c9abafc3cd0b99aa9f086fe96b0fd
+ca4340ef83e75017f7fc4bdae481489737962525b20536a78391ee25d003d25d
+19e6f33e17b94042ffbeaf505c3a002b5050d4fbbc409b6f1c1b75ca37d2b839
+3c98dc4f17491953770d8ebbb61a8225f4505d06141aed2f1782e40c6f66a05f
+d5010cbf90e4d411b11aa6568e694fb0cdf1d9cc46d1c279c58ab9136c77f355
+c940ed13105ae10dd97f856b4aee6495a1349e3caa96895521151745d46b91ad
+363c8659a0843fc2ecafb5d0c1d65aefadf04ebd12eaf2d4cf85b7f9e5a8fead
+4242b20f77077804badd6977b53612939b59656d3108ad3bd61f234e65b6d31a
+08558a1876002c62f2d4380119c2626f35b5e0b396e48c5c46b6bb4ae1c6e89b
+20a71464dc83d464f14b5719ce0b63815388a6b256e8c697edceb8e1f1394a8f
+c81c3f97c6086b33cc06038bca7fc0693afc2e8c267bbe5d900e99969f2f5a20
+00d0ae2aab35fd7839ab95ebcf706a511f7060d4872b77ad4f747cdb04290bdc
+54f46342c5d7c0920f03588e93b78bbcf6079ccd6efd51c8d3927a43194c90c4
+02ae201ec1e3d1327a8c80b3b4391f8e5452ff248591a6b8c6168d7ce0acedf6
+7ee7e7f70f37a5efe31b56f0918028beb704edafe7654f285ca7fcfa3405cf7e
+45bfe4b649690438dcd14251053107cdf9d2a24cee9c10f2b994f05dd779e4ee
+99fdd51325b0134aa3c05d502` }
+}
+</pre><a href="#appendix-C.2-6" class="pilcrow">¶</a>
+</div>
+<p id="appendix-C.2-7">The following is the HQC-KEM-256 public key corresponding to the private
+key in the previous section. The textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> is
+followed by the so-called "pretty print"; the public keys are the same.<a href="#appendix-C.2-7" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C.2-8">
+<pre>
+-----BEGIN PUBLIC KEY-----
+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
+rzr09vvYwetS8QM=
+-----END PUBLIC KEY-----
+</pre><a href="#appendix-C.2-8" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="appendix-C.2-9">
+<pre>
+SEQUENCE {
+  SEQUENCE {
+    OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.4.3 }
+  }
+  BIT_STRING { `00` `440a05e59419e3cdf7f8009c5380efe48724e0a4da4
+0672cb625a8854391e51fce7ab6b5b26b3060949c90d4b499f1c886e06afb470
+cd196f352ea9acc8bcded7be1ba833438d5436a497e91a334ef09712360a0c59
+5c67144dddf71650b02c1aabeddee70158a750a0b3fb6ef55f81456fc1c9b2ac
+8bcd3c6a2c1753b695a84257acc221804d03110d89b7c82a081aed936320af49
+10c24cbbf6d9785d79dc4305b1c68d58b484289d85f2b677985cf2a0590238be
+f44d6da2a2466cedc13d4a4baf92d8dce876647cc79a0d4b98205e65af401b89
+608170a7cb8118b96e91d7ca32302488058bd5cbe4e1030262894c05fde693ec
+1f3811e465ddd82b665b220066e537b8ecbf0ed3252d2d6c63b2caa03c352816
+4596e9781d2bdb08ad125707da7a45415fa639766639556fd4146d4068bf3883
+93b7da70fd87b1f1d61d8b678a255f00232abf8ec3226454e3ed0185d5b000f5
+bcdc0528587dbd356a08d380f2f50d00c1164321d10998b5d34ce416271d1b7e
+874ab003dce9e1b63939b066ad5070efe9c56001d4fae3714e6bfba5b58b2099
+d88afd8074fb467fd17313bc6e9948b2139f82bd7846943a190b20c37e9892ae
+81c78ca51aac48317e0d56d3ed4cc088d1cc9a1c58791d8ea9a0e64a9df8068d
+a6418a8a2eaf8329279c9c284c9e968d2ae2ebf7fed63f627d0624bedbf16092
+fc31a06de6f97300f8ac3bb7040b222c97a26721c40d9f10beddb8cea3ba3744
+2a1bf3431163ecd70f8d897c2694502d5454d68c1cbff22b0e7ada1bba08cc1a
+3ca2f9fc9939804faaabc3a5aa487407029631b3943f77c3fdc4816513961b4c
+f0d4a35a45d1dea298e80ce87a45be8f27cb4aa2316405e3e17cf2b2e04c48a1
+9d4397e484b6c5e87151e919584fe5491c7cb6f47b32d632803c80b81f707bcc
+1382eccafb90597b75e3c378d18055c40a5bd2577544445ee1c9ae256f59f3b8
+b9fa33c1bf2ff429ec5e243102591d8f98b692afed61b3e3b8209d27b68e57c9
+7289b1d1201d29968e31eed046ff48c7d0a22c941e642eb6dfc77ba490362072
+a51646036ce8521a49f32048456a7de4c2b2d53dde46c815d706f2092212f9b1
+3e7f08cae90ab122a3f1bfcc3b0d1e2875564d1a185a3de8c8ebcacdecfa59da
+3017cb347011aca115898e7a7a79d3a0c1c791b0e0c800b05cd666e1653bf4a1
+d66eb8f3d9d18261574806e8610a2289bb394b70f30328c2545d3528426daa48
+875c77291df7a670094b996ee1d3768a0f258d584571db2fa9c2ed1359b4830a
+4f88c749ec98a23d61d8496ffc8d5859e00cac431558a8cb26421ce4d2d84201
+73d8333dc884a50e412e9ca81ab203454dbfc3d4d46cef9ddf59ff45b1586c19
+bdbeb3eb62db74ade5c05437c500646099ae522fdaa5d301016d3b08d4ce3856
+e91a79d1b4cf7d12e57b0d19b84579e326d95b10fb553d51d25b6750c9147f6e
+f66466ba40e4a842f0fe8c9140e20f2901f62f22cff6511afa326290d050db68
+fbd00d01307d7b4a606fe9378759df1b8b4a9f3a2ef90cc4ff04cbcf6ccbfc38
+fc3dc84143314279ddbe0ce99b7619b38f6e846a3fafc0ce2957e0c38a18da50
+0864777fddfb913b3c874bd599b6cd8782991683b277f842f219c472748ee52b
+e8a63c8cb104d910d1d042e652cb92a1d65ea9125f7bc22c19668ef54db2b22e
+cbf538d53b42010992e314edb59e2115fef8ef6a66181e048aec8555989c7e0b
+1c5b4ea73146c04eaa41378aa528b9553d886220063bbce0514833bf3cf91e9e
+e0af82341d0fe834af00e74dc5e9a48e588e5221ebdb21bdabbaf7956090b0be
+0152388656a0ae2d0024104dbe4aa9a2d0bbd3e990cd40f487cc3cd5b46daa2d
+55358a4323e996675d7471060fbe12ae658b5c63f27bdd40f9f582df52c766da
+f8c3a50ce3546d2bf144b266094ad0fb3361b9c646f6dc6fc99cd4073374fb60
+d801e4825ba7887ff1acb47aad8dbb53ce041ce36b9acc0046348150f4082306
+e589c5e7be7278088c4393956760b8ed72f3fff0f71463c51dfd5e4628500a23
+412874ad8f4248758bd02a704b49c7c32ba6bd5678523644da7a3bc09fe3b60b
+9803065bae3f2746dfc4d3049baf7d4238ec17a38239a9b6e5df3486ba0d0498
+4f472570e554fa21d50939112ace24d3aa90bf6092df5d47d9f436808a2ab6af
+8f125527ce8ab6cf7cc610657f2d10a8788c65abfc69ae7bb27cf351b4a00630
+762996165d702da191cdf07f6a9070d7d64c1db11a977f10e789619e0f041548
+bdac9b1d31bd7f5420edbbdfea806813b10ca919e5cf8b236e01d23c09671f0f
+43e7e5d6546f9eb22ac3059e0ce6b1f02b1cc2aa873c5f6d518f95357b5507eb
+6af512bf873d3cd0b97dbd6956dc4469f714e7ce3f26f6b71a87dd02ad995a32
+a76b8d4f27fc7663cb2171b9f9912a1c952fe74d3ab35fe1cd4052610ddb98a3
+c5e53803d8a0245998d9696251506245eb99f98248035fc39af98cb693df446e
+9e87e9b51b27b681f92a803f092acd3ca1c9aba25c13b8bb784d63add919aaa7
+b6b54e03b44b928273652d5bf25589460f07983919db49f5e74ffcb931e065a4
+a829d1ccd508b4c673a1e65f7d0ada77896024127cbc23eeec2c7d9f0368708b
+67869787d0aef352654f48dabea8f907abbfb21bb65e08fb27ba4ce3a3acd603
+aeb65eae2386ff57cc87f902666a0b1d445a9ff9a0100818b33c1a129876b28e
+3e33b01c4bbc4717016972e65d22f664fc9ad49b6dcbe4bb85dbb9e9d27c707b
+3bb74fdc3a487b5343230ed628aeaddf55a8eb59dd26d017805702ac2e16fab0
+da7cf83d40a90ef74e54f7f1e972a6160cb49c5db5921b23ce35deb0430b77f9
+385e099f88d471d862662da2fe0db0cbaa93d09294306f0be8643b37893248e4
+4b84605451cecd10e927231a6c05ddd48eb4d96cf78687719f0b5040e90ace6e
+4843f159eebc92fcf714dc4c4bc14d7bf6273a8af774949ca335b1ee0027086e
+31f7f8f8e1408c8d1b3f1745d3e8be52ec10e37fee98a0a0e845d10a1a60db1e
+48bd3e7f458b835c48de99f8381a45587c7f4f3f1636cc2e899fb47e3861aeda
+4b8f3262a4c299dbaefae64d2c11e49f91e52350ccfdcd106d0131c597171cbc
+86763fbe0bb974a4de447f01eedcd115744993f597e85a100524ca676bb25838
+7b06791542a49ab3385968570e6072728c50a19306cf683595ee93a339392939
+520aeef1654add9396426162ce81a42e794184bb6856a67a3907a6f1f3a41e19
+156a044004a8ed08f07f4795689ed3ac9ff87fd3c85120cbcbe205d7d8db883a
+b234762873f6b65e2e7b5c6c922908a3da531d2373a41b4cee1c37fa8d82da6b
+8a9373c079c37af69dcb16723ecccb8ab1359435bac8e65b837973ef122ab8a8
+c5866c1677a19d5125e5d2038715d5ac9bf97095346a858bb281ac8fe994cc50
+62038175701c0956c3a3f17132a511e8ce96c5a8b9f7404de804ba835cc4ce79
+17c11e59252ffccfbdb1025b96e116103f9569b22727a671933b36db7bbb7420
+9e9223cdbe1ddab35b2f57657ac7ea381166d6062e1b75da60c0d3d4c0ee1874
+ed7a5a745cfb151c6bade5c4a9ee5e072185d1076738be4d700ab8e5fb810ea3
+c94d513a7d2196b68b61e481b41d77f9606540880554a843bea281c26d8e5fe0
+948b467d40f3ce8aa7c30d4428275d1b26fb44c386903bc9b48c935f625bf623
+12e69573475d56093b2610e98668f485655f18c246138046f2a6ac97a091b95f
+059dc68a1471553813883398ca0e120e5fa0b889b34151cbdc09279fd286aa6a
+b75e54868ab26aa20c0c4c31b01f63f0db2f27952a0638e61499a2b5437abfed
+582e060cac1e44ff8e476fd3f4bf007d6042613be4b0d5177ab607afb2c5900b
+fee6e84d0a5e890d3f487ab7a83941363d6c8bcd1f1e6410cfef4e4bbb53a713
+2dc55d5cbe944155974ec59ab28310f77792303238fce29de6005aaa36bbabe1
+f692e1223f44d4b376cf070935f48c85f6efa8187d35fbf729dc3c5ff310185d
+ae68dcc71441e3ab52d25942e9a3b1c3b89ed9a2ddb43a98be33ee2482a21ba7
+a51e210eb60efb00cc79e820a42db8bb6c8dcd59c64b7589ad90bbcaf973d103
+7ec7cf0f6c920302952037adc67972546d3c4f2cc91e0b8c837502de0bf469ee
+1e4b042cd9aaf4907373b2255b11badf7d1755234eb682c4dc069c9a1c49704b
+0d63734ea31572a92616124d3953f428362ee4c7dd5bc25910169521f8e9425f
+fad8c81687f7d3ab008df40e229ee84ff038a8692be727e2bfa93087c19571bf
+a891c3b73474dc43305c1ddc3981adf5cd7c1bf00645034048bf5e0b656e94d6
+d48153e36c61e8bc6f165210e8305fdaa749a5556e54b45632d575be7a9be30b
+2279e0617b439ef3bfd66cfc9fb64db88db12500e48c0d99e431d8a6a7b4ab8b
+c931efea4752622b1a32b2d70883a57f469c1b3c5462278dc3c299ce0da3b551
+14bb2dc2b7263c4dc48434b1cb175a528b63d25c5c2024ea218745b6ff5cf2db
+6b1f9e9c3332696faac2746161d681c07ba3ba9fe41581327365ad578dc8dce4
+e35a9a1347e5338dc85d21dcd14bafdad8f4c9241079de7ca5a4ac02c1dc95ba
+8d45f63da0a9a4adc89ba1c03edd2ef43883611331a2d6740ce896f87df4202d
+427e8c27a230a709cb565c07f822cf8b6636b9392f908d22013c0995b4ee1a27
+e4b65f3683ce6856354da4c70b3ef5bff0b7887a3962e1062c8ee250a89e53b9
+7bbebae8a7b543ba59a92afeb74014232b47633db231c05f9d0d705b06363aee
+0a684b9147dabfe5aa89e6cd1cc8da8c16d258d07550c9b64d1a0ffdaafe4fd6
+98744972fc12b4aeedd25a75b1596056b9f16f7b95ce4b32179d723c179fa60c
+e215c5f2494209602784eaab3deeb96b36e5541ac7a95db2c962e15a4cc59799
+7e73b7287f718bd54793b7d4729326cd84622b3e1f290ca36f07e072f69b49bf
+53adcd1bf89487efcb45935e9741b339c17d3075fee665b2c15a888b86208766
+54f2226e918ea884cc18ff0d26354399b468ff0ecafc787ba7fd75cffa5c69cc
+0e0b83084d50a2881c631b5c3128eccc28551d1f1321350051810d5bbc7a899e
+28aca8d72fefcc4cd8f9c61bb672dd402d5773c31566a2552d9614643b4f3080
+f57ad57f809fff0ede37c464ea7e083fe731cabc52a339d4e041886e2dbc69ee
+1f7e5868b8a496a12ce3c9c3cab3064c9101b0ddf24e4aa5d328e7ff4d654cd1
+09a23ea7356549f12a1ce7f6835549ef430bc79bd9275a0e01aec9b18933b706
+fedf6e5c64b341c45c93f1c94dff3647e8c489baf78e33fdf3752bf0d1adad72
+fd0576addf2eed1f8a389b3075ddedb1f5897e551d1e82a4af5114f5e565ad76
+2a8cd1e2b2cc15e74d991ad7c58c6cca6673c6bd961daca8f131482763dea577
+1c3035697fb7a4ba68ee57cfdc01820ae7cfc316956ecf2b9e0618d1d34bf4ff
+f014d1c5a8a14a84d7f8de2603cbb4e7535b38574ca6232d42607c1ebdac89ee
+7c7ba2520da5f8fe73342b883fa92f375e1a3081b65766a35497acaf306b0332
+ba80a8f7d164258ba7a1e540517a2e1825e79ec2b88c10f599d74b034afb8d75
+b1d4e90b2e1f74716df82b34aee9093196f3003f151e4729e426c29253be75b2
+e46b847578b014c35858481270f61cbfa322aef64eccb94133e4371704c3fc57
+bfb9672b5efd198cccaad8afc81b6c1f4533d14c282266ef14e951df96edb4f7
+6917fe26c4c62872455981bbe97bc49f5db525788bebaeb6c59b2558fe7857e6
+f9ebf591a8767e7467711fa1539611b765b71dc7d18337d46e9be3eb53e0be87
+fec22d4d4d5740f29ce4baeea353d89ed740bd281c8ccbbaf07800bc9f81c8ab
+f3d4108605cf5434c680e449d1f55ba053a3a53a2278217d8429782eb07d40de
+fb3703e0befbe59b9ad1f00510b9558471ee8c0972abcad095b12ec0d4705cd2
+3c959657ad8f55f15ba732ecaf2d46a6fcc00149be0752ac4509e329b47b898b
+bc3d2115fc36348bd7b09a0c436778c63bad8a8e5ee82151261fa26058a88355
+c31e9b69a0088ecf5ff67f9ad3a1f285fcffaf4e0b82bb55aaaad2cad5d66b3e
+ae095732f067022572a2c10b83796079d02d94d18baa1ddabc94475164946810
+e670cddb528fa8dadc8b3a4622130ed15f1189a8fe2f4c73b972ec28a25a311c
+f67971678a1d24e13b5ee0263e436ce9b30547ce8f630ab3f4990843a591263e
+b6fb94a593d311d5fc535b082da2a6693dcb470e59daf3fa288d251b7d1111b0
+f2abb87876f4814d448b30211473d7dbd49081b8edba412d4bdfbae697e8516a
+184cbd4bdcb0bff1bd1c76c678729bf718c87f7ed373423c2a31edb33651299f
+1dba7067f335f553fb96d0de61a306ddb9f0be31cd57e2cbcc380bb720316d5f
+3ac01d6278d75bc2c407333129c9c209acd77a6393e328d947372b4c0af39535
+6617a98d060f4fcce90b92a9df7ab2247e9ea3558ba11302081ef98d1367c92e
+e69dd93c64dae79c5385201748cbaca2727d82d3f6ef23c47e203ffad05d208b
+0b4d537a69667861d615dfbe976d318cbd77c96ad8afa14606b2efd488dc9354
+e0a9c5426addbf8d2bc61f446b84d964a3699f62be3f3183a98e3cbbb60bbafd
+aa73fc7dc583c3478ca15048a0b0a06c44205c68fbc5faf14cfb0ef9e3b49238
+12abcccde790819e7192b90f0fd85508399247d3629601699d2c65048807c144
+1ee0f7e59e99664451318d54590e1d35adce62c8374e3bf598a69874e281a540
+4d6b41f841ed92feb4998145c62f48db2f6562e86b75c02acf3844c61ed9ac89
+909160994453fd5b97608b6738fa5857f92eea5e5ad79f029bd024e803ebe5e9
+4f127ab16fcf318d93a5bd78995af6376eca54bfb633adf055d2a578855553bd
+c8231e1712630434573ce58b821559c5e8dc5a4a4bf8c0764cb74421653f4929
+909e8b09bb53caee3d260d1930a07932d565d870941c2929a2711f1abd6e235e
+3fe2dd6ea3dcca636b1ba94149fa5599efb5ebd90f3530385373eccba1559912
+68a4c040afc0719ec1ec3434f97ae32855a973f42fdbc966bc68234c7e530ec5
+8f0265481cdd174b53a10cea720cf56f0d4042d0d39766762aa9894588bc38e4
+dc2c067a5690fcf9407184174791bd84515bd36002410d0b62c8f1dc5606debd
+02c02934d7bfbe99db1257535298a3334b5cb78a4bc98602ea2411b8b969b806
+2cd15c2b2831a3898df41c4436088b202a17d0848d45adfff4a00de7065fb52b
+0fca221769164b627f5bab4e47923e41e2cd89f906f3691a5e614b3a43696011
+b7b6bdce4226e31febf9e059fc517d02397459a8cc4fd4e25826545af111180d
+e06c7d18ad9cc85526f92a52c4933be9ae2a356db2b55ddd5a510bf70f26aace
+3246826529530acf59e7a88c108b8f8fa86be91b841048783182e44fc5495e5b
+ab56f0a93aa3487747a5fdf1283466e7a8b3eb1d53b1675ef35558e840e49e9e
+7ff0bd5d1da0df1955364538e6b206b875e3651e27f9020bc4f7a2865898190c
+26c28dbe75065a3c0dd68195ef183504087bf05d2283e3755f21f15c7bf0c865
+be6525262aa7e187cdc606b27e3a8eeda38539b84d8bfc6ef66c8932d0f66ba7
+60fd504fc8a623809c31c499561062ae95a9128d7d6bf94bbb40f1f00f1b8083
+0fe6fa24b855f9e13f24eee0f5bf195e71b138481987f765cedbd362181c68f4
+20a37753548cf1c7fc39e194a1484321ea58b9a618348d4a8bba8f4a6629245f
+6d86f2886ba0f0fba15686fd04330f5295aea32cba45ea414fc1b98a6150076d
+815cfeed060b2f7eb49ec891ff7da2df8e93f5dc2b0b839f7a05f0ae9bbaef74
+68d7e619b1dd7bbb4cbd06906614f8a2ee1383c293801edac25964b0b582a521
+7db8b5bbfdb96a3f14b532cbacbe8a796f90225aae75a4be668e4daf780c5339
+1e4138f2cd69a71e3acc289aad17822553ff549257858e8dc03b4e206d92ea0b
+ca9b862de039cedc00099e440cc68508d727e76de14151cd1d4ca6af8b6760c8
+7f745100eb0b142c2dca0642c21d15cefc37646df31ecceb87d3991dadccb3d8
+fc527d4bc1ce94a0a4b21cbfbf61589d76c1afa50fe0da69410a0c6f456e62a0
+0fbec28db4239c2038454082d4cb032f8fa5c963258b23b1fa9e1a5a37d0f123
+b47dba87591ffa00d3894cac39ebf6f93118b871259de638fe90dd8af49925d7
+f74667b77577241331843c6ed94acf75de247594fa9c8711e97b687b2b9ef976
+13356e7b564c9c606873c325121d55cbe97bc6e5db791dfd1b4688ebdc8a23ce
+e7c8ef5bf7f24ec4f5be294779444c687c10f5a5322c1e219cae866a40cbeaae
+39021411bf876a93982a74ccc1f7ebef1a87e5214408f3479dd546b3ebe7611c
+719f563e51b6c09f8c97969cfd534dc26a5c16048ec0239928c7e376fed4cfed
+e8f98521ac70c6b21418266e523573fcafda1df0bf632cbbaf1d14dcdae9492f
+685c09e909bf823e8952500c773e5e5673fe45aad7f5b69bb83a6443923d7480
+7b32f3b09be22eb60629f5c7ae2b2c3d63da97f3f63223de937060b5f62f8acf
+45c2b85fc164f1ab02cd8803ea12bfae4f124378d876c853ef9a2aa09a2ee7bf
+be84ea4ff861fea69860041b635faf27f8264b86cee71ba9fbf3e3469e5fa1f3
+ca4cd37c7f6f3fd2d216f26cf9bb508f315a8fe84c1aff01256f280c1f9fe9fb
+c90a78915bbe8aed27643f7b677ce508c007f23f7aa2c9899e5f891ecc626a35
+99cba69294ac510a1be175fac0d6c612adafe1bb9089b7d5222f210c722fae9c
+a0204e817368621fd2ac746a2e58d7d28e781c40607a8cb21036fdf559688e6a
+f6d2b7cbe3f0c54d8be8b5e0a59e0c1146a0b909c08248601c9a8dd9de45fa5e
+db89fc44054c3a5d3d7f71af74830d22ed38dba3ad1b42f046bd3d526ec6d17f
+ebc9dbbca55d43ae2facf4398f919fdd9ee00a88d18ed101105de9ff3e5a2b66
+f56d93c047189020a1dfcc629e9a921465c255e372ba0989a56e2ae5b1218c5c
+6611f70244bf4f1d41bfabde160eb7d39cac8fed9b4d10888137c72299fd34ad
+2e51547e98ecbc292a78c460e054d811ee94fd6b6d251a9bd8acfa27bca92c7f
+37df7f4c45d9169b74d3e22319764089e936cf1f927fc45b787071b90588e60e
+0300197c29d7011c84ef5dc581e1d17c4687f6267c3d6b3d25342ee427e10cf4
+70373bd255ebbdf2fbd1355158ef3e1a7696f8a37a28f20422517176591da9ca
+a42be7c2ffe7176a5c6ecfb26cbbab6644f7044e7c1289fb29fdb988d8afdda2
+bdfebecbc14d7899a5f55d73fad93354f59e63329620d17a2c6fc8414d29ffb3
+b8ed0521b3deb6a10c8b3ec40f77aa6a6b5975e789b6841a9fe7e5a4286ef2d8
+d4bf8bd81a8aa743c8a15d16998832522946c44f00377485c695e00d0b5deecc
+20aa03a88ce69de652f5cd56c2ba5542632f6cf671998e324f3a71df291e6cbb
+c63d81f4fdb424e21bc0f3c27388f353322f74fe84cc69cee5de3c9b30d99359
+fc8437c58cf9e6ddeea9d22accc4baf4edbf58e8916c93347821ab3be69d5de1
+c6c2cf1b0a4eba38ecc3070023d45c544845e38aeda5f6bc173608987e4bdc2d
+42d88edd4d429f0d1493052b2fd843e8b61864c3b8d6e3755c1795efc1d99f53
+9862e5d1285a2b535a01d89b06365222f18fc8f45eba5ba18abbec22907fbc39
+b5e2dbf9ae892500bf62e13d419b4054c457cf8308e53b2fad2c63192d648546
+3dc45e5855ee66d98c725d37bcdaf5f17a87b5d7ccf0859dfbcb7d2cf12ba43d
+3fa422e14c1b1da886fcffcdfa0bb3e4c54252e769d215f4f6ed11fc68660b3c
+ef445239e2ea70df38bf5f14cabc1d1a36a1aa0f023639054679fdf4364080d8
+42814c0e4270eed51abe821da2fd7bcb111132e50a24436f55e27adba2d62d0c
+54efc7035c5114c113da118b8d71f3dec441501c3f0e739bca96ca1cb57a9732
+e10cf97222edd331bbcd8081a33037516698ed1b724057e886ae963e5b80ffe4
+2d485cf39e95b0c07e8df03c4bd526865d5ee38df6120627c52cf87d6585a3c1
+6f5bfc8419464df62a8c86d8ab0fbb7a3e4465da213bfead85b3b81511106d93
+c73d8954d6903a4cbacbe56c90eb809cd382e6ac9673ec86c3002a05418c2b98
+64bd71647af3af4f6fbd8c1eb52f103` }
+}
+</pre><a href="#appendix-C.2-9" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-D">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-D-1">TODO acknowledge.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-E">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Jake Massimo</span></div>
+<div dir="auto" class="left"><span class="org">AWS</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:jakemas@amazon.com" class="email">jakemas@amazon.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Panos Kampanakis</span></div>
+<div dir="auto" class="left"><span class="org">AWS</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:kpanos@amazon.com" class="email">kpanos@amazon.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
