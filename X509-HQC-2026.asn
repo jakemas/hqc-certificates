@@ -1,0 +1,108 @@
+X509-HQC-2026
+{ iso(1) identified-organization(3) dod(6)
+  internet(1) security(5) mechanisms(5) pkix(7) id-mod(0)
+  id-mod-x509-hqc-2026(TBD) }
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+
+ PUBLIC-KEY
+   FROM AlgorithmInformation-2009  -- [RFC 5912]
+     { iso(1) identified-organization(3) dod(6) internet(1)
+       security(5) mechanisms(5) pkix(7) id-mod(0)
+       id-mod-algorithmInformation-02(58) }
+
+ KEM-ALGORITHM
+   FROM KEMAlgorithmInformation-2023  -- [RFC 9629]
+     { iso(1) identified-organization(3) dod(6) internet(1)
+       security(5) mechanisms(5) pkix(7) id-mod(0)
+       id-mod-kemAlgorithmInformation-2023(109) };
+
+--
+-- HQC Identifiers
+--
+-- NOTE: The object identifiers below are PLACEHOLDERS.  NIST is expected
+-- to assign HQC object identifiers under the Computer Security Objects
+-- Register (CSOR) once FIPS 207 is published.  The arc shown mirrors the
+-- ML-KEM assignment (nistAlgorithms.4 "kems") and MUST be replaced with
+-- the values assigned by NIST.
+--
+
+nistAlgorithms OBJECT IDENTIFIER ::= { joint-iso-ccitt(2)
+  country(16) us(840) organization(1) gov(101) csor(3)
+  nistAlgorithm(4) }
+
+kems OBJECT IDENTIFIER ::= { nistAlgorithms 4 }
+
+id-alg-hqc-128 OBJECT IDENTIFIER ::= { kems TBD1 }
+
+id-alg-hqc-192 OBJECT IDENTIFIER ::= { kems TBD2 }
+
+id-alg-hqc-256 OBJECT IDENTIFIER ::= { kems TBD3 }
+
+--
+-- Public Key Algorithms
+--
+
+PublicKeys PUBLIC-KEY ::= {
+  -- This expands PublicKeys from [RFC 5912]
+  pk-hqc-128 |
+  pk-hqc-192 |
+  pk-hqc-256,
+  ...
+  }
+
+--
+-- HQC Public Keys
+--
+-- NOTE: The public key sizes below are provisional and follow the HQC
+-- parameters under consideration for FIPS 207.  They MUST be confirmed
+-- against the published FIPS 207 standard.
+--
+
+pk-hqc-128 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-128
+  -- KEY no ASN.1 wrapping; 2249 octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { keyEncipherment }
+  PRIVATE-KEY HQC-128-PrivateKey
+  }
+
+HQC-128-PrivateKey ::= CHOICE {
+  seed [0] OCTET STRING (SIZE (32))
+  }
+
+pk-hqc-192 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-192
+  -- KEY no ASN.1 wrapping; 4522 octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { keyEncipherment }
+  PRIVATE-KEY HQC-192-PrivateKey
+  }
+
+HQC-192-PrivateKey ::= CHOICE {
+  seed [0] OCTET STRING (SIZE (32))
+  }
+
+pk-hqc-256 PUBLIC-KEY ::= {
+  IDENTIFIER id-alg-hqc-256
+  -- KEY no ASN.1 wrapping; 7245 octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { keyEncipherment }
+  PRIVATE-KEY HQC-256-PrivateKey
+  }
+
+HQC-256-PrivateKey ::= CHOICE {
+  seed [0] OCTET STRING (SIZE (32))
+  }
+
+HQC-128-PublicKey ::= OCTET STRING (SIZE (2249))
+
+HQC-192-PublicKey ::= OCTET STRING (SIZE (4522))
+
+HQC-256-PublicKey ::= OCTET STRING (SIZE (7245))
+
+END
