@@ -1,23 +1,9 @@
 DEPS_FILES := \
 	X509-HQC-2026.asn \
-	./example/HQC-128.crt \
-	./example/HQC-128.crt.txt \
-	./example/HQC-128-seed.priv \
-	./example/HQC-128-seed.priv.txt \
-	./example/HQC-128.pub \
-	./example/HQC-128.pub.txt \
-	./example/HQC-192.crt \
-	./example/HQC-192.crt.txt \
-	./example/HQC-192-seed.priv \
-	./example/HQC-192-seed.priv.txt \
-	./example/HQC-192.pub \
-	./example/HQC-192.pub.txt \
-	./example/HQC-256.crt \
-	./example/HQC-256.crt.txt \
-	./example/HQC-256-seed.priv \
-	./example/HQC-256-seed.priv.txt \
-	./example/HQC-256.pub \
-	./example/HQC-256.pub.txt \
+
+# NOTE: example artifacts (HQC-*.crt/.pub/-seed.priv and their .txt
+# pretty-prints) will be added to DEPS_FILES once a generator exists and
+# the draft {::include}s them, mirroring lamps-wg/kyber-certificates.
 
 LIBDIR := lib
 include $(LIBDIR)/main.mk

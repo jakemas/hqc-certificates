@@ -1,2 +1,3 @@
-# CODEOWNERS
+# Automatically generated CODEOWNERS
+# Regenerate with `make update-codeowners`
 draft-massimo-lamps-hqc-certificates.md jakemas@amazon.com

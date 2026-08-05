@@ -438,7 +438,7 @@ as per {{RFC5280}}, certificates use the Distinguished Encoding Rules; see
 <CODE ENDS>
 ~~~
 
-# Parameter Set Security and Sizes {#arnold}
+# Parameter Set Security and Sizes {#params}
 
 NIST has defined security levels by picking a reference scheme that
 NIST expects to offer notable levels of resistance to both quantum and
