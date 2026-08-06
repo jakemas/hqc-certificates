@@ -39,6 +39,11 @@ author:
     name: Panos Kampanakis
     organization: AWS
     email: kpanos@amazon.com
+ -
+    ins: S. Turner
+    name: Sean Turner
+    organization: sn3rd
+    email: sean@sn3rd.com
 
 normative:
   FIPS207:
